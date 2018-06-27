@@ -251,149 +251,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/22/C_send_http_request_example/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Winn">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Winn's Utopia">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/22/C_send_http_request_example/" itemprop="url">C语言发送http请求</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-22T20:33:21+08:00">
-                2018-10-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/demo/" itemprop="url" rel="index">
-                    <span itemprop="name">demo</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>C语言发送http请求和普通的socket通讯,原理是一样的.无非就三步connect()连上服务器,send()发送数据,recv()接收数据.只不过发送的数据有特定的格式.下面的是简单发送一个http请求的例子</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;netinet/in.h&gt;</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">#include &lt;netdb.h&gt;</span><br><span class="line"></span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">int main(int argc, char **argv)</span><br><span class="line">&#123;</span><br><span class="line">	/* 构造查询包 */</span><br><span class="line">	const char quary[] = </span><br><span class="line">	&quot;GET / HTTP/1.0\r\n&quot;</span><br><span class="line">	&quot;Host: blog.csdn.net\r\n&quot;</span><br><span class="line">	&quot;\r\n&quot;;</span><br><span class="line"></span><br><span class="line">	const char hostname[] = &quot;blog.csdn.net&quot;;</span><br><span class="line">	struct sockaddr_in sin;</span><br><span class="line">	struct hostent *h;</span><br><span class="line">	const char *cp;</span><br><span class="line">	int fd;</span><br><span class="line">	ssize_t n_written, remaining;</span><br><span class="line">	char buf[1024];</span><br><span class="line"></span><br><span class="line">	/* 查找该域名的地址 */ </span><br><span class="line">	h = gethostbyname(hostname);</span><br><span class="line">	if(h == NULL)</span><br><span class="line">	&#123;</span><br><span class="line">		fprintf(stderr, &quot;Couldn&apos;t lookup %s:%s\n&quot;, hostname, hstrerror(h_errno));</span><br><span class="line">		return 1;</span><br><span class="line">	&#125;</span><br><span class="line">	if (h-&gt;h_addrtype != AF_INET)</span><br><span class="line">	&#123;</span><br><span class="line">		fprintf(stderr, &quot;No ipv6 support, sorry.\n&quot;);</span><br><span class="line">		return 1;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	/* 创建一个套接字用来连接服务器 */</span><br><span class="line">	fd = socket(AF_INET, SOCK_STREAM, 0);</span><br><span class="line">	if (fd &lt; 0)</span><br><span class="line">	&#123;</span><br><span class="line">		perror(&quot;socket&quot;);</span><br><span class="line">		return 1;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	/* 连接到服务器 */</span><br><span class="line">	sin.sin_family = AF_INET;</span><br><span class="line">	sin.sin_port = htons(80);</span><br><span class="line">	sin.sin_addr = *(struct in_addr*)h-&gt;h_addr;</span><br><span class="line">	if (connect(fd, (struct sockaddr *)&amp;sin, sizeof(sin)))</span><br><span class="line">	&#123;</span><br><span class="line">		perror(&quot;connect&quot;);</span><br><span class="line">		close(fd);</span><br><span class="line">		return 1;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	/* 发送请求 */</span><br><span class="line">	cp = quary;</span><br><span class="line">	remaining = strlen(quary);</span><br><span class="line">	while(remaining)</span><br><span class="line">	&#123;</span><br><span class="line">		n_written = send(fd,cp, remaining, 0);</span><br><span class="line">		if (n_written &lt;= 0)</span><br><span class="line">		&#123;</span><br><span class="line">			perror(&quot;send&quot;);</span><br><span class="line">			return 1;</span><br><span class="line">		&#125;</span><br><span class="line">		remaining -= n_written;</span><br><span class="line">		cp += n_written;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	/* 获取响应 */</span><br><span class="line">	while(1)</span><br><span class="line">	&#123;</span><br><span class="line">		ssize_t result = recv(fd, buf, sizeof(buf), 0);</span><br><span class="line">		if (result == 0)</span><br><span class="line">		&#123;</span><br><span class="line">			break;</span><br><span class="line">		&#125;</span><br><span class="line">		else if (result &lt; 0)</span><br><span class="line">		&#123;</span><br><span class="line">			perror(&quot;recv\n&quot;);</span><br><span class="line">			close(fd);</span><br><span class="line">			return 1;</span><br><span class="line">		&#125;</span><br><span class="line">		fwrite(buf, 1, result, stdout);</span><br><span class="line">	&#125;</span><br><span class="line">	close(fd);</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/07/ha/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1176,6 +1033,149 @@ unimplemented: 返回给浏览器表明收到的 HTTP 请求所用的 method 不
 </blockquote>
 <p>参数：<br>    server_ip    :    要检查的服务器ip地址<br>    domain        :    要查询的域名<br>    type        :    要查询的域名类型 A NS NAME MX SOA AAAA TXT<br>    proto        ：    通过什么方式查询 TCP或者UDP<br>    port        :    dns服务器端口</p>
 <p>返回值：<br>    DNS_SERVER_HEALTH 1         正常解析<br>    DNS_SERVER_NOT_HEALTH 2        服务不能解析<br>    PARAMETER_ERROR -1            参数有误<br>    QUARY_SEND_ERROR -3            发送查询包错误<br>    RESPONSE_RECV_ERROR -5        接受响应超时<br>    TCP_CONNECT_ERROR -4        TCP CONNECT失败<br>    SOCKET_ERROR -6                创建套接字失败<br>注意：参数全部以字符串形式传入<br>    eg:result = dns_health_check(“127.0.0.1”, “<a href="http://www.baidu.com&quot;" target="_blank" rel="noopener">www.baidu.com&quot;</a>, “A”, “UDP”, “53”);<br>    result = dns_health_check(“114.114.114.114”, “163.com”, “MX”, “TCP”, “53”);</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/22/C_send_http_request_example/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Winn">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Winn's Utopia">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/22/C_send_http_request_example/" itemprop="url">C语言发送http请求</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-22T20:33:21+08:00">
+                2017-10-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/demo/" itemprop="url" rel="index">
+                    <span itemprop="name">demo</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>C语言发送http请求和普通的socket通讯,原理是一样的.无非就三步connect()连上服务器,send()发送数据,recv()接收数据.只不过发送的数据有特定的格式.下面的是简单发送一个http请求的例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;netinet/in.h&gt;</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">#include &lt;netdb.h&gt;</span><br><span class="line"></span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">int main(int argc, char **argv)</span><br><span class="line">&#123;</span><br><span class="line">	/* 构造查询包 */</span><br><span class="line">	const char quary[] = </span><br><span class="line">	&quot;GET / HTTP/1.0\r\n&quot;</span><br><span class="line">	&quot;Host: blog.csdn.net\r\n&quot;</span><br><span class="line">	&quot;\r\n&quot;;</span><br><span class="line"></span><br><span class="line">	const char hostname[] = &quot;blog.csdn.net&quot;;</span><br><span class="line">	struct sockaddr_in sin;</span><br><span class="line">	struct hostent *h;</span><br><span class="line">	const char *cp;</span><br><span class="line">	int fd;</span><br><span class="line">	ssize_t n_written, remaining;</span><br><span class="line">	char buf[1024];</span><br><span class="line"></span><br><span class="line">	/* 查找该域名的地址 */ </span><br><span class="line">	h = gethostbyname(hostname);</span><br><span class="line">	if(h == NULL)</span><br><span class="line">	&#123;</span><br><span class="line">		fprintf(stderr, &quot;Couldn&apos;t lookup %s:%s\n&quot;, hostname, hstrerror(h_errno));</span><br><span class="line">		return 1;</span><br><span class="line">	&#125;</span><br><span class="line">	if (h-&gt;h_addrtype != AF_INET)</span><br><span class="line">	&#123;</span><br><span class="line">		fprintf(stderr, &quot;No ipv6 support, sorry.\n&quot;);</span><br><span class="line">		return 1;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	/* 创建一个套接字用来连接服务器 */</span><br><span class="line">	fd = socket(AF_INET, SOCK_STREAM, 0);</span><br><span class="line">	if (fd &lt; 0)</span><br><span class="line">	&#123;</span><br><span class="line">		perror(&quot;socket&quot;);</span><br><span class="line">		return 1;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	/* 连接到服务器 */</span><br><span class="line">	sin.sin_family = AF_INET;</span><br><span class="line">	sin.sin_port = htons(80);</span><br><span class="line">	sin.sin_addr = *(struct in_addr*)h-&gt;h_addr;</span><br><span class="line">	if (connect(fd, (struct sockaddr *)&amp;sin, sizeof(sin)))</span><br><span class="line">	&#123;</span><br><span class="line">		perror(&quot;connect&quot;);</span><br><span class="line">		close(fd);</span><br><span class="line">		return 1;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	/* 发送请求 */</span><br><span class="line">	cp = quary;</span><br><span class="line">	remaining = strlen(quary);</span><br><span class="line">	while(remaining)</span><br><span class="line">	&#123;</span><br><span class="line">		n_written = send(fd,cp, remaining, 0);</span><br><span class="line">		if (n_written &lt;= 0)</span><br><span class="line">		&#123;</span><br><span class="line">			perror(&quot;send&quot;);</span><br><span class="line">			return 1;</span><br><span class="line">		&#125;</span><br><span class="line">		remaining -= n_written;</span><br><span class="line">		cp += n_written;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	/* 获取响应 */</span><br><span class="line">	while(1)</span><br><span class="line">	&#123;</span><br><span class="line">		ssize_t result = recv(fd, buf, sizeof(buf), 0);</span><br><span class="line">		if (result == 0)</span><br><span class="line">		&#123;</span><br><span class="line">			break;</span><br><span class="line">		&#125;</span><br><span class="line">		else if (result &lt; 0)</span><br><span class="line">		&#123;</span><br><span class="line">			perror(&quot;recv\n&quot;);</span><br><span class="line">			close(fd);</span><br><span class="line">			return 1;</span><br><span class="line">		&#125;</span><br><span class="line">		fwrite(buf, 1, result, stdout);</span><br><span class="line">	&#125;</span><br><span class="line">	close(fd);</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
           
         
