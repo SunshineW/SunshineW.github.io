@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>一次DNS服务器BUG调试 | Winn&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="背景公司做了一个DNS服务器，测试没问题了，架设到网关上使用，出现了电脑能解析域名，手机不能解析的情况问题。 问题解决过程有时候找到问题在哪比解决问题本身更难。同一个路由器的下的电脑能访问，手机不能访问。先在网关上进行抓包，分析手机发送的DNS请求和电脑发送的DNS请求有什么不同，无果，手机和电脑发送的DNS请求并没有什么不同，服务器端返回的响应也一样。找了一下午也没有找到。有时候找bug就像写作">
+<meta name="keywords" content="DNS,BUG,调试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一次DNS服务器BUG调试">
+<meta property="og:url" content="http://winn.cc/2018/03/27/dns_fix_bug/index.html">
+<meta property="og:site_name" content="Winn&#39;s blog">
+<meta property="og:description" content="背景公司做了一个DNS服务器，测试没问题了，架设到网关上使用，出现了电脑能解析域名，手机不能解析的情况问题。 问题解决过程有时候找到问题在哪比解决问题本身更难。同一个路由器的下的电脑能访问，手机不能访问。先在网关上进行抓包，分析手机发送的DNS请求和电脑发送的DNS请求有什么不同，无果，手机和电脑发送的DNS请求并没有什么不同，服务器端返回的响应也一样。找了一下午也没有找到。有时候找bug就像写作">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-06-29T05:25:52.642Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一次DNS服务器BUG调试">
+<meta name="twitter:description" content="背景公司做了一个DNS服务器，测试没问题了，架设到网关上使用，出现了电脑能解析域名，手机不能解析的情况问题。 问题解决过程有时候找到问题在哪比解决问题本身更难。同一个路由器的下的电脑能访问，手机不能访问。先在网关上进行抓包，分析手机发送的DNS请求和电脑发送的DNS请求有什么不同，无果，手机和电脑发送的DNS请求并没有什么不同，服务器端返回的响应也一样。找了一下午也没有找到。有时候找bug就像写作">
+  
+    <link rel="alternate" href="/atom.xml" title="Winn&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://winn.cc"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Winn&#39;s blog</a>
+      </h1>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-dns_fix_bug" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/03/27/dns_fix_bug/" class="article-date">
+  <time datetime="2018-03-27T12:34:30.000Z" itemprop="datePublished">2018-03-27</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/BUG调试/">BUG调试</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      一次DNS服务器BUG调试
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>公司做了一个DNS服务器，测试没问题了，架设到网关上使用，出现了电脑能解析域名，手机不能解析的情况问题。</p>
+<h2 id="问题解决过程"><a href="#问题解决过程" class="headerlink" title="问题解决过程"></a>问题解决过程</h2><p>有时候找到问题在哪比解决问题本身更难。同一个路由器的下的电脑能访问，手机不能访问。先在网关上进行抓包，分析手机发送的DNS请求和电脑发送的DNS请求有什么不同，无果，手机和电脑发送的DNS请求并没有什么不同，服务器端返回的响应也一样。找了一下午也没有找到。有时候找bug就像写作一样，当写不出东西的时候不如出去走走，弄不好灵感就来了。第二天偶然发现手机上并不是所有的域名都不能解析，有个别的域名还是能访问的，又进行了一些域名进行尝试，总结出一个规律：知名的网站大多数不能访问比如百度、腾讯、网易等等，而一些不知名的小网站能够访问。尝试尝试自己注册的域名，果然能访问。有突破口就好办了，然后开始分析公共DNS服务器返回的大网站和小网站的DNS报文有什么不同。</p>
+<p>用dig查询baidu域名的IP（手机不能访问）</p>
+<pre><code>;; QUESTION SECTION:
+;www.baidu.com.                 IN      A
+
+;; ANSWER SECTION:
+www.baidu.com.          358     IN      CNAME   www.a.shifen.com.
+www.a.shifen.com.       58      IN      A       115.239.211.112
+www.a.shifen.com.       58      IN      A       115.239.210.27
+</code></pre><p>个人小网站域名winn.cc</p>
+<pre><code>;; QUESTION SECTION:
+;www.winn.cc.              IN      A
+
+;; ANSWER SECTION:
+www.winn.cc.       58      IN      A       202.196.35.225
+</code></pre><p>其他的一些域名和上面的类似，带CNAME记录的全部不能访问，看到这一点，问题已经找到在哪了，之前BOSS为了减少流量，把CNAME记录给删除了，只返回给IP。<br>比如百度的域名 我们返回的响应是这样的：</p>
+<pre><code>;; QUESTION SECTION:
+;www.baidu.com.                 IN      A
+
+;; ANSWER SECTION:
+www.a.shifen.com.       58      IN      A       115.239.211.112
+www.a.shifen.com.       58      IN      A       115.239.210.27
+</code></pre><p>这样的响应理解起来是这样子的，有人（客户端）来找看门大爷（DNS服务器）问老王（域名）家住哪，老王有个外号（CNAME）叫胖子，但是来人并不知道老王的外号。</p>
+<pre><code>客户：大爷，老王家在哪啊
+看门大爷：胖子家在第一栋楼502号
+客户：？？？？？（一脸懵逼）
+</code></pre><p>正常的流程应该是这样的</p>
+<pre><code>客户：大爷，老王家在哪啊
+看门大爷：老王，你说那个胖子啊，胖子家在第一栋楼502号
+客户：哦，那谢谢您嘞。（去找老王）
+</code></pre><p>问题就在上层DNS服务器返回了多条记录，这几条记录可能是相关联的，我们删掉了其中的一条记录，使这些记录关联不到一起。手机系统看来是服务器答非所问不能解析。至于电脑为什么能解析，可能Windows系统和unix的处理流程方法不一样吧。</p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><ol>
+<li>在返回记录里添加CANME记录</li>
+<li>在返回记录里不添加CNAME记录，但把CNAME换成QNAME</li>
+</ol>
+<p>原始响应</p>
+<pre><code>;; QUESTION SECTION:
+;www.baidu.com.                 IN      A
+
+;; ANSWER SECTION:
+www.baidu.com.          358     IN      CNAME   www.a.shifen.com.
+www.a.shifen.com.       58      IN      A       115.239.211.112
+www.a.shifen.com.       58      IN      A       115.239.210.27
+</code></pre><p>修改后的响应</p>
+<pre><code>;; QUESTION SECTION:
+;www.baidu.com.               IN      A
+
+;; ANSWER SECTION:
+;www.baidu.com.       58      IN      A       115.239.211.112
+;www.baidu.com.       58      IN      A       115.239.210.27
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://winn.cc/2018/03/27/dns_fix_bug/" data-id="cjizw458e00095qdgbstc1bti" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BUG/">BUG</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/DNS/">DNS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/调试/">调试</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+ <script src="/jquery/jquery.min.js"></script>
+  <div id="random_posts">
+    <h2>推荐文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =4
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
+    </div>
+  </div>
+
+    
+<nav id="article-nav">
+  
+    <a href="/2018/04/07/ha/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          HA集群工作方式一种实现思路
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/03/15/bind_radix_tree/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">bind中基数树的建立</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+       
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+       
+            <div id="SOHUCS" sid="2018/03/27/dns_fix_bug/"> </div>
+    
+      
+      
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+
+  
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目录</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#背景"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题解决过程"><span class="toc-number">2.</span> <span class="toc-text">问题解决过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#解决方法"><span class="toc-number">2.1.</span> <span class="toc-text">解决方法</span></a></li></ol></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+
+  
+    
+  
+    
+  
+    
+
+  
+    
+  
+    <!--微信公众号二维码-->
+
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2018 温阳光&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;wen-41270219@163.com
+    </div>
+  </div>
+</footer>
+ <script src="/jquery/jquery.min.js"></script>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+
+
+<script type="text/javascript ">
+    (function () {
+        var appid = 'cytGNXn8E';
+        var conf = '600ef931a771fe5f4e194a8383fb4a7a';
+        var width = window.innerWidth || document.documentElement.clientWidth;
+        if (width < 960) {
+            window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
+        } else {
+            var loadJs = function (d, a) {
+                var c = document.getElementsByTagName("head")[0] || document.head || document.documentElement;
+                var b = document.createElement("script");
+                b.setAttribute("type", "text/javascript");
+                b.setAttribute("charset", "UTF-8");
+                b.setAttribute("src", d);
+                if (typeof a === "function") {
+                    if (window.attachEvent) {
+                        b.onreadystatechange = function () {
+                            var e = b.readyState;
+                            if (e === "loaded" || e === "complete") {
+                                b.onreadystatechange = null;
+                                a()
+                            }
+                        }
+                    } else {
+                        b.onload = a
+                    }
+                }
+                c.appendChild(b)
+            };
+            loadJs("http://changyan.sohu.com/upload/changyan.js", function () {
+                window.changyan.api.config({
+                    appid: appid,
+                    conf: conf
+                })
+            });
+        }
+    })();
+</script>
+
+
+
+
+
+
+
+
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
+
+<!-- author:forvoid end -->
+
+<!-- author:forvoid end -->
+
+
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+ <script src="/js/is.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/elevator.js"></script>
+  </div>
+</body>
+</html>

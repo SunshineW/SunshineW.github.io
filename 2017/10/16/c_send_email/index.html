@@ -1,604 +1,337 @@
 <!DOCTYPE html>
-
-
-
-  
-
-
-<html class="theme-next mist use-motion" lang="zh-Hans">
+<html>
 <head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-<meta name="theme-color" content="#222">
-
-
-
-
-
-
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  <meta charset="utf-8">
   
-  
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-
-
-
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
-
-
-
-
-
-  <meta name="keywords" content="libesmtp,邮件," />
-
-
-
-
-
-  <link rel="alternate" href="/atom.xml" title="Winn's Utopia" type="application/atom+xml" />
-
-
-
-
-
-
-<meta name="description" content="需要安装libesmtp开发环境，centos下可以用yum安装。 yum install libesmtp-devel 编译时加上-lesmtp选项，账号密码等替换成自己的 gcc -o mail mail.c -lesmtp ./mail 123456789101112131415161718192021222324252627282930313233343536373839404142434">
+  <title>C语言发送邮件(带帐号密码认证)，简单的libesmtp实例 | Winn&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="需要安装libesmtp开发环境，centos下可以用yum安装。 yum install libesmtp-devel 编译时加上-lesmtp选项，账号密码等替换成自己的 gcc -o mail mail.c -lesmtp ./mail 123456789101112131415161718192021222324252627282930313233343536373839404142434">
 <meta name="keywords" content="libesmtp,邮件">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C语言发送邮件(带帐号密码认证)，简单的libesmtp实例">
-<meta property="og:url" content="http://yoursite.com/2017/10/16/c_send_email/index.html">
-<meta property="og:site_name" content="Winn&#39;s Utopia">
+<meta property="og:url" content="http://winn.cc/2017/10/16/c_send_email/index.html">
+<meta property="og:site_name" content="Winn&#39;s blog">
 <meta property="og:description" content="需要安装libesmtp开发环境，centos下可以用yum安装。 yum install libesmtp-devel 编译时加上-lesmtp选项，账号密码等替换成自己的 gcc -o mail mail.c -lesmtp ./mail 123456789101112131415161718192021222324252627282930313233343536373839404142434">
-<meta property="og:locale" content="zh-Hans">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://img.blog.csdn.net/20160817135241253">
 <meta property="og:updated_time" content="2018-06-26T11:43:24.908Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C语言发送邮件(带帐号密码认证)，简单的libesmtp实例">
 <meta name="twitter:description" content="需要安装libesmtp开发环境，centos下可以用yum安装。 yum install libesmtp-devel 编译时加上-lesmtp选项，账号密码等替换成自己的 gcc -o mail mail.c -lesmtp ./mail 123456789101112131415161718192021222324252627282930313233343536373839404142434">
 <meta name="twitter:image" content="http://img.blog.csdn.net/20160817135241253">
-
-
-
-<script type="text/javascript" id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Mist',
-    version: '5.1.4',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
-    fancybox: true,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    duoshuo: {
-      userId: '0',
-      author: '博主'
-    },
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
-
-
-
-  <link rel="canonical" href="http://yoursite.com/2017/10/16/c_send_email/"/>
-
-
-
-
-
-  <title>C语言发送邮件(带帐号密码认证)，简单的libesmtp实例 | Winn's Utopia</title>
   
-
-
-
-
-
-
-
+    <link rel="alternate" href="/atom.xml" title="Winn&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
-  
-  
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
     
-  
-
-  <div class="container sidebar-position-left page-post-detail">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/"  class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Winn's Utopia</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://winn.cc"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
     </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Winn&#39;s blog</a>
+      </h1>
       
-        <p class="site-subtitle"></p>
-      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-c_send_email" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/10/16/c_send_email/" class="article-date">
+  <time datetime="2017-10-16T10:33:08.000Z" itemprop="datePublished">2017-10-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/demo/">demo</a>
   </div>
 
-  <div class="site-nav-toggle">
-    <button>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
   </div>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首页
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            标签
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-categories">
-          <a href="/categories/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
-            
-            分类
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            归档
-          </a>
-        </li>
-      
-
-      
-    </ul>
-  
-
-  
-</nav>
-
-
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
+  <div class="article-inner">
     
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/16/c_send_email/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Winn">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Winn's Utopia">
-    </span>
-
     
-      <header class="post-header">
-
+      <header class="article-header">
         
-        
-          <h1 class="post-title" itemprop="name headline">C语言发送邮件(带帐号密码认证)，简单的libesmtp实例</h1>
-        
+  
+    <h1 class="article-title" itemprop="name">
+      C语言发送邮件(带帐号密码认证)，简单的libesmtp实例
+    </h1>
+  
 
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-16T18:33:08+08:00">
-                2017-10-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/demo/" itemprop="url" rel="index">
-                    <span itemprop="name">demo</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
       </header>
     
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+    <div class="article-entry" itemprop="articleBody">
       
-      
-
-      
+        <!-- Table of Contents -->
+        
         <p>需要安装libesmtp开发环境，centos下可以用yum安装。</p>
 <pre><code>yum install libesmtp-devel
 </code></pre><p>编译时加上-lesmtp选项，账号密码等替换成自己的</p>
 <pre><code>gcc -o mail mail.c -lesmtp
 ./mail
-</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br></pre></td><td class="code"><pre><span class="line">/* mail.c */</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;ctype.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line"></span><br><span class="line">#include &lt;errno.h&gt;</span><br><span class="line">#include &lt;openssl/ssl.h&gt;</span><br><span class="line">#include &lt;auth-client.h&gt;</span><br><span class="line">#include &lt;libesmtp.h&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#define FAIL	-1</span><br><span class="line">#define OK	0</span><br><span class="line"></span><br><span class="line">#define SUBJECT 	&quot;Subject&quot;  					/* 邮件主题*/</span><br><span class="line">#define TO  		&quot;to@to.com&quot; 				/* 收件人 */</span><br><span class="line">#define BODY 		&quot;hello&quot;						/* 邮件正文 */</span><br><span class="line">#define SERVER 		&quot;smtp.163.com:25&quot;			/* 邮件服务器地址 */</span><br><span class="line">#define USERNAME 	&quot;wen-4@163.com&quot;				/* 邮箱账号 */</span><br><span class="line">#define PASSWOED 	&quot;123456789&quot;					/* 邮箱密码 */</span><br><span class="line"></span><br><span class="line">/* 回调函数 设置账号密码 */</span><br><span class="line">int authinteract(auth_client_request_t request, char **result, int fields, void *args)</span><br><span class="line">&#123;</span><br><span class="line">	int	i;</span><br><span class="line"></span><br><span class="line">	for (i=0; i &lt; fields; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		if (request[i].flags &amp; AUTH_PASS)</span><br><span class="line">			result[i] = PASSWOED; </span><br><span class="line">		else	</span><br><span class="line">			result[i] = USERNAME;</span><br><span class="line">	&#125;</span><br><span class="line">	return 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 回调函数 打印客户端与服务器交互情况 可以不要 */</span><br><span class="line">void monitor_cb(const char *buf, int buflen, int writing, void *arg)</span><br><span class="line">&#123;</span><br><span class="line">	int i;</span><br><span class="line">	</span><br><span class="line">	if (writing == SMTP_CB_HEADERS)</span><br><span class="line">		printf(&quot;H: &quot;);</span><br><span class="line">	else if(writing)</span><br><span class="line">		printf(&quot;C: &quot;);</span><br><span class="line">	else</span><br><span class="line">		printf(&quot;S: &quot;);</span><br><span class="line"></span><br><span class="line">	const char *p = buf;</span><br><span class="line">	for(i=0; p[i]!=&apos;\n&apos;; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(&quot;%c&quot;, p[i]);</span><br><span class="line">	&#125;</span><br><span class="line">	printf(&quot;\n&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	int	ret;</span><br><span class="line">	FILE *tmp_fp = NULL;</span><br><span class="line">	smtp_session_t		session;</span><br><span class="line">	smtp_message_t		message;</span><br><span class="line">	smtp_recipient_t	recipient;</span><br><span class="line">	auth_context_t		authctx;</span><br><span class="line">	const smtp_status_t *status;</span><br><span class="line">	</span><br><span class="line">	auth_client_init();</span><br><span class="line">	session = smtp_create_session();</span><br><span class="line">	message = smtp_add_message(session);</span><br><span class="line">	</span><br><span class="line">	smtp_set_monitorcb(session, monitor_cb, stdout, 1);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	/* 设置邮件主题 */</span><br><span class="line">	smtp_set_header(message, &quot;Subject&quot;,SUBJECT);</span><br><span class="line">	smtp_set_header_option(message, &quot;Subject&quot;, Hdr_OVERRIDE, 1);</span><br><span class="line">	</span><br><span class="line">	/* 设置收件人 */</span><br><span class="line">	smtp_set_header(message, &quot;To&quot;, NULL, TO);</span><br><span class="line">	</span><br><span class="line">	/* 设置发件人 */</span><br><span class="line">	smtp_set_reverse_path(message, USERNAME);</span><br><span class="line">	</span><br><span class="line">	/* 添加收件人 */</span><br><span class="line">	recipient = smtp_add_recipient(message, TO);</span><br><span class="line"></span><br><span class="line">	/* 设置服务器域名和端口 */</span><br><span class="line">	smtp_set_server(session, SERVER);</span><br><span class="line">	</span><br><span class="line">	/* 设置邮件正文 */</span><br><span class="line">	tmp_fp = tmpfile();</span><br><span class="line">	if (tmp_fp == NULL)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(&quot;create temp file failed: %s\n&quot;, strerror(errno));</span><br><span class="line">		return FAIL;</span><br><span class="line">	&#125;</span><br><span class="line">	fprintf(tmp_fp, &quot;\r\n%s&quot;,BODY);</span><br><span class="line">	rewind(tmp_fp);</span><br><span class="line">	smtp_set_message_fp(message, tmp_fp);</span><br><span class="line">	</span><br><span class="line">	/* 设置登录验证相关的东西 */</span><br><span class="line">	authctx = auth_create_context();</span><br><span class="line">	if (authctx == NULL)</span><br><span class="line">	&#123;</span><br><span class="line">		return FAIL;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	auth_set_mechanism_flags(authctx, AUTH_PLUGIN_PLAIN, 0);</span><br><span class="line">	auth_set_interact_cb(authctx, authinteract, NULL);</span><br><span class="line">	smtp_auth_set_context(session, authctx);</span><br><span class="line">	</span><br><span class="line">	if (!smtp_start_session(session)) </span><br><span class="line">	&#123;</span><br><span class="line">		char buf[128];</span><br><span class="line">		printf( &quot;SMTP server problem %s&quot;, smtp_strerror(smtp_errno(), buf, sizeof buf));</span><br><span class="line">		ret = FAIL;</span><br><span class="line">	&#125;</span><br><span class="line">	else </span><br><span class="line">	&#123;</span><br><span class="line">		/* 输出邮件发送情况 如果 status-&gt;code== 250则表明发送成功 */</span><br><span class="line">		status = smtp_message_transfer_status(message);</span><br><span class="line">		printf(&quot;%d %s&quot;, status-&gt;code, (status-&gt;text != NULL) ? status-&gt;text : &quot;\n&quot;);</span><br><span class="line">		ret = OK;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	/* 释放资源 */</span><br><span class="line">	smtp_destroy_session(session);</span><br><span class="line">	if (authctx)</span><br><span class="line">		auth_destroy_context(authctx);</span><br><span class="line">	auth_client_exit();</span><br><span class="line">	fclose(tmp_fp);</span><br><span class="line">	return ret;		</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* mail.c */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ctype.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;errno.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;openssl/ssl.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;auth-client.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;libesmtp.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FAIL	-1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> OK	0</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SUBJECT 	<span class="meta-string">"Subject"</span>  					<span class="comment">/* 邮件主题*/</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> TO  		<span class="meta-string">"to@to.com"</span> 				<span class="comment">/* 收件人 */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> BODY 		<span class="meta-string">"hello"</span>						<span class="comment">/* 邮件正文 */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SERVER 		<span class="meta-string">"smtp.163.com:25"</span>			<span class="comment">/* 邮件服务器地址 */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> USERNAME 	<span class="meta-string">"wen-4@163.com"</span>				<span class="comment">/* 邮箱账号 */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PASSWOED 	<span class="meta-string">"123456789"</span>					<span class="comment">/* 邮箱密码 */</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 回调函数 设置账号密码 */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">authinteract</span><span class="params">(<span class="keyword">auth_client_request_t</span> request, <span class="keyword">char</span> **result, <span class="keyword">int</span> fields, <span class="keyword">void</span> *args)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span>	i;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (i=<span class="number">0</span>; i &lt; fields; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (request[i].flags &amp; AUTH_PASS)</span><br><span class="line">			result[i] = PASSWOED; </span><br><span class="line">		<span class="keyword">else</span>	</span><br><span class="line">			result[i] = USERNAME;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 回调函数 打印客户端与服务器交互情况 可以不要 */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">monitor_cb</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *buf, <span class="keyword">int</span> buflen, <span class="keyword">int</span> writing, <span class="keyword">void</span> *arg)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span> (writing == SMTP_CB_HEADERS)</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"H: "</span>);</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(writing)</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"C: "</span>);</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"S: "</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">char</span> *p = buf;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>; p[i]!=<span class="string">'\n'</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"%c"</span>, p[i]);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span>	ret;</span><br><span class="line">	FILE *tmp_fp = <span class="literal">NULL</span>;</span><br><span class="line">	<span class="keyword">smtp_session_t</span>		session;</span><br><span class="line">	<span class="keyword">smtp_message_t</span>		message;</span><br><span class="line">	<span class="keyword">smtp_recipient_t</span>	recipient;</span><br><span class="line">	<span class="keyword">auth_context_t</span>		authctx;</span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">smtp_status_t</span> *status;</span><br><span class="line">	</span><br><span class="line">	auth_client_init();</span><br><span class="line">	session = smtp_create_session();</span><br><span class="line">	message = smtp_add_message(session);</span><br><span class="line">	</span><br><span class="line">	smtp_set_monitorcb(session, monitor_cb, <span class="built_in">stdout</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="comment">/* 设置邮件主题 */</span></span><br><span class="line">	smtp_set_header(message, <span class="string">"Subject"</span>,SUBJECT);</span><br><span class="line">	smtp_set_header_option(message, <span class="string">"Subject"</span>, Hdr_OVERRIDE, <span class="number">1</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/* 设置收件人 */</span></span><br><span class="line">	smtp_set_header(message, <span class="string">"To"</span>, <span class="literal">NULL</span>, TO);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/* 设置发件人 */</span></span><br><span class="line">	smtp_set_reverse_path(message, USERNAME);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/* 添加收件人 */</span></span><br><span class="line">	recipient = smtp_add_recipient(message, TO);</span><br><span class="line"></span><br><span class="line">	<span class="comment">/* 设置服务器域名和端口 */</span></span><br><span class="line">	smtp_set_server(session, SERVER);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/* 设置邮件正文 */</span></span><br><span class="line">	tmp_fp = tmpfile();</span><br><span class="line">	<span class="keyword">if</span> (tmp_fp == <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"create temp file failed: %s\n"</span>, strerror(errno));</span><br><span class="line">		<span class="keyword">return</span> FAIL;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">fprintf</span>(tmp_fp, <span class="string">"\r\n%s"</span>,BODY);</span><br><span class="line">	rewind(tmp_fp);</span><br><span class="line">	smtp_set_message_fp(message, tmp_fp);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/* 设置登录验证相关的东西 */</span></span><br><span class="line">	authctx = auth_create_context();</span><br><span class="line">	<span class="keyword">if</span> (authctx == <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> FAIL;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	auth_set_mechanism_flags(authctx, AUTH_PLUGIN_PLAIN, <span class="number">0</span>);</span><br><span class="line">	auth_set_interact_cb(authctx, authinteract, <span class="literal">NULL</span>);</span><br><span class="line">	smtp_auth_set_context(session, authctx);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span> (!smtp_start_session(session)) </span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">char</span> buf[<span class="number">128</span>];</span><br><span class="line">		<span class="built_in">printf</span>( <span class="string">"SMTP server problem %s"</span>, smtp_strerror(smtp_errno(), buf, <span class="keyword">sizeof</span> buf));</span><br><span class="line">		ret = FAIL;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> </span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">/* 输出邮件发送情况 如果 status-&gt;code== 250则表明发送成功 */</span></span><br><span class="line">		status = smtp_message_transfer_status(message);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"%d %s"</span>, status-&gt;code, (status-&gt;text != <span class="literal">NULL</span>) ? status-&gt;text : <span class="string">"\n"</span>);</span><br><span class="line">		ret = OK;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/* 释放资源 */</span></span><br><span class="line">	smtp_destroy_session(session);</span><br><span class="line">	<span class="keyword">if</span> (authctx)</span><br><span class="line">		auth_destroy_context(authctx);</span><br><span class="line">	auth_client_exit();</span><br><span class="line">	fclose(tmp_fp);</span><br><span class="line">	<span class="keyword">return</span> ret;		</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>下面是程序运行的实际情况， 如果提示535 Error或者authentication failed表明验证失败，说明是账号密码错误，或者邮箱的设置问题。<br><img src="http://img.blog.csdn.net/20160817135241253" alt="程序运行实例"></p>
 
       
     </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/libesmtp/" rel="tag"># libesmtp</a>
-          
-            <a href="/tags/邮件/" rel="tag"># 邮件</a>
-          
-        </div>
-      
-
+    <footer class="article-footer">
+      <a data-url="http://winn.cc/2017/10/16/c_send_email/" data-id="cjizw457w00065qdgt62yfa4i" class="article-share-link">分享</a>
       
       
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/libesmtp/">libesmtp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/邮件/">邮件</a></li></ul>
 
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/10/09/dns_server/" rel="next" title="DNS介绍">
-                <i class="fa fa-chevron-left"></i> DNS介绍
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/10/22/C_send_http_request_example/" rel="prev" title="C语言发送http请求">
-                C语言发送http请求 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
     </footer>
   </div>
   
-  
-  
-  </article>
-
-
-
-    <div class="post-spread">
-      
+    
+ <script src="/jquery/jquery.min.js"></script>
+  <div id="random_posts">
+    <h2>推荐文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =4
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
     </div>
   </div>
 
-
-          </div>
-          
-
-
-          
-
+    
+<nav id="article-nav">
   
-
-
-
-        </div>
+    <a href="/2017/10/22/C_send_http_request_example/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
         
-          
+          C语言发送http请求
+        
+      </div>
+    </a>
   
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+  
+    <a href="/2017/10/09/dns_server/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">DNS介绍</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+       
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+       
+            <div id="SOHUCS" sid="2017/10/16/c_send_email/"> </div>
+    
+      
+      
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+
+  
+    
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title recent-posts">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/04/07/ha/">HA集群工作方式一种实现思路</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/27/dns_fix_bug/">一次DNS服务器BUG调试</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/15/bind_radix_tree/">bind中基数树的建立</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/03/lb_session/">负载均衡中的会话保持</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/03/tinyhttpd_read/">tinyhttpd源码解析，最简单的HTTP服务器</a>
+          </li>
+        
+      </ul>
     </div>
   </div>
 
-  <aside id="sidebar" class="sidebar">
+  
     
-    <div class="sidebar-inner">
 
-      
+  
+    
+  
+    <!--微信公众号二维码-->
 
-      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name">Winn</p>
-              <p class="site-description motion-element" itemprop="description"></p>
-          </div>
+  
+</aside>
 
-          <nav class="site-state motion-element">
-
-            
-              <div class="site-state-item site-state-posts">
-              
-                <a href="/archives/">
-              
-                  <span class="site-state-item-count">11</span>
-                  <span class="site-state-item-name">日志</span>
-                </a>
-              </div>
-            
-
-            
-              
-              
-              <div class="site-state-item site-state-categories">
-                <a href="/categories/index.html">
-                  <span class="site-state-item-count">4</span>
-                  <span class="site-state-item-name">分类</span>
-                </a>
-              </div>
-            
-
-            
-              
-              
-              <div class="site-state-item site-state-tags">
-                <a href="/tags/index.html">
-                  <span class="site-state-item-count">18</span>
-                  <span class="site-state-item-name">标签</span>
-                </a>
-              </div>
-            
-
-          </nav>
-
-          
-            <div class="feed-link motion-element">
-              <a href="/atom.xml" rel="alternate">
-                <i class="fa fa-rss"></i>
-                RSS
-              </a>
-            </div>
-          
-
-          
-            <div class="links-of-author motion-element">
-                
-                  <span class="links-of-author-item">
-                    <a href="https://github.com/SunshineW" target="_blank" title="GitHub">
-                      
-                        <i class="fa fa-fw fa-github"></i>GitHub</a>
-                  </span>
-                
-                  <span class="links-of-author-item">
-                    <a href="mailto:yg_wen@126.com" target="_blank" title="E-Mail">
-                      
-                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
-                  </span>
-                
-            </div>
-          
-
-          
-          
-
-          
-          
-
-          
-
-        </div>
-      </section>
-
-      
-
-      
-
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2018 温阳光&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
     </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
-  <span class="with-love">
-    <i class="fa fa-user"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Winn</span>
-
-  
-</div>
-
-
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
-
-
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
-
-
-
-
-        
-
-
-
-
-
-
-
-        
-      </div>
-    </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
-    
-
-    
-
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;wen-41270219@163.com
+    </div>
   </div>
-
+</footer>
+ <script src="/jquery/jquery.min.js"></script>
+    </div>
+    <nav id="mobile-nav">
   
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
 
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
+
+
+<script type="text/javascript ">
+    (function () {
+        var appid = 'cytGNXn8E';
+        var conf = '600ef931a771fe5f4e194a8383fb4a7a';
+        var width = window.innerWidth || document.documentElement.clientWidth;
+        if (width < 960) {
+            window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
+        } else {
+            var loadJs = function (d, a) {
+                var c = document.getElementsByTagName("head")[0] || document.head || document.documentElement;
+                var b = document.createElement("script");
+                b.setAttribute("type", "text/javascript");
+                b.setAttribute("charset", "UTF-8");
+                b.setAttribute("src", d);
+                if (typeof a === "function") {
+                    if (window.attachEvent) {
+                        b.onreadystatechange = function () {
+                            var e = b.readyState;
+                            if (e === "loaded" || e === "complete") {
+                                b.onreadystatechange = null;
+                                a()
+                            }
+                        }
+                    } else {
+                        b.onload = a
+                    }
+                }
+                c.appendChild(b)
+            };
+            loadJs("http://changyan.sohu.com/upload/changyan.js", function () {
+                window.changyan.api.config({
+                    appid: appid,
+                    conf: conf
+                })
+            });
+        }
+    })();
 </script>
 
 
@@ -608,129 +341,46 @@
 
 
 
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
 
-  
+<!-- author:forvoid end -->
 
-
-
-
-
-
-
-
-
-
+<!-- author:forvoid end -->
 
 
   
-  
-    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
 
-  
-  
-    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
-  
+ <script src="/js/is.js"></script>
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
-
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
 
 
-  
-  
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
-
-
-
-  
-
-
-  
-
-
-
-
-	
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-  
-
-  
-
-  
-  
-
-  
-
-  
-
-  
-
+<script src="/js/script.js"></script>
+<script src="/js/elevator.js"></script>
+  </div>
 </body>
 </html>

@@ -1,353 +1,106 @@
 <!DOCTYPE html>
-
-
-
-  
-
-
-<html class="theme-next mist use-motion" lang="zh-Hans">
+<html>
 <head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-<meta name="theme-color" content="#222">
-
-
-
-
-
-
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  <meta charset="utf-8">
   
-  
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-
-
-
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
-
-
-
-
-
-  <meta name="keywords" content="dns,C," />
-
-
-
-
-
-  <link rel="alternate" href="/atom.xml" title="Winn's Utopia" type="application/atom+xml" />
-
-
-
-
-
-
-<meta name="description" content="简介简单的DNS客户端API实现，做健康检查用，检查域名服务器是否能正常解析某域名 代码头文件声明12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970#ifndef DNS_HEALTH_C">
+  <title>DNS Client API | Winn&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="简介简单的DNS客户端API实现，做健康检查用，检查域名服务器是否能正常解析某域名 代码头文件声明12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970#ifndef DNS_HEALTH_C">
 <meta name="keywords" content="dns,C">
 <meta property="og:type" content="article">
 <meta property="og:title" content="DNS Client API">
-<meta property="og:url" content="http://yoursite.com/2017/11/23/dns_client/index.html">
-<meta property="og:site_name" content="Winn&#39;s Utopia">
+<meta property="og:url" content="http://winn.cc/2017/11/23/dns_client/index.html">
+<meta property="og:site_name" content="Winn&#39;s blog">
 <meta property="og:description" content="简介简单的DNS客户端API实现，做健康检查用，检查域名服务器是否能正常解析某域名 代码头文件声明12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970#ifndef DNS_HEALTH_C">
-<meta property="og:locale" content="zh-Hans">
+<meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2018-06-26T11:43:26.382Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DNS Client API">
 <meta name="twitter:description" content="简介简单的DNS客户端API实现，做健康检查用，检查域名服务器是否能正常解析某域名 代码头文件声明12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970#ifndef DNS_HEALTH_C">
-
-
-
-<script type="text/javascript" id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Mist',
-    version: '5.1.4',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
-    fancybox: true,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    duoshuo: {
-      userId: '0',
-      author: '博主'
-    },
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
-
-
-
-  <link rel="canonical" href="http://yoursite.com/2017/11/23/dns_client/"/>
-
-
-
-
-
-  <title>DNS Client API | Winn's Utopia</title>
   
-
-
-
-
-
-
-
+    <link rel="alternate" href="/atom.xml" title="Winn&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
-  
-  
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
     
-  
-
-  <div class="container sidebar-position-left page-post-detail">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/"  class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Winn's Utopia</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://winn.cc"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
     </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Winn&#39;s blog</a>
+      </h1>
       
-        <p class="site-subtitle"></p>
-      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-dns_client" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/11/23/dns_client/" class="article-date">
+  <time datetime="2017-11-23T11:45:22.000Z" itemprop="datePublished">2017-11-23</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/coding/">coding</a>
   </div>
 
-  <div class="site-nav-toggle">
-    <button>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
   </div>
-</div>
-
-<nav class="site-nav">
-  
-
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首页
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            标签
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-categories">
-          <a href="/categories/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
-            
-            分类
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            归档
-          </a>
-        </li>
-      
-
-      
-    </ul>
-  
-
-  
-</nav>
-
-
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
+  <div class="article-inner">
     
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/23/dns_client/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Winn">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Winn's Utopia">
-    </span>
-
     
-      <header class="post-header">
-
+      <header class="article-header">
         
-        
-          <h1 class="post-title" itemprop="name headline">DNS Client API</h1>
-        
+  
+    <h1 class="article-title" itemprop="name">
+      DNS Client API
+    </h1>
+  
 
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-23T19:45:22+08:00">
-                2017-11-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/coding/" itemprop="url" rel="index">
-                    <span itemprop="name">coding</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
       </header>
     
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+    <div class="article-entry" itemprop="articleBody">
       
-      
-
-      
+        <!-- Table of Contents -->
+        
         <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>简单的DNS客户端API实现，做健康检查用，检查域名服务器是否能正常解析某域名</p>
-<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><h4 id="头文件声明"><a href="#头文件声明" class="headerlink" title="头文件声明"></a>头文件声明</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">#ifndef DNS_HEALTH_CHECK_H_H</span><br><span class="line">#define DNS_HEALTH_CHECK_H_H</span><br><span class="line"></span><br><span class="line">typedef struct </span><br><span class="line">&#123;</span><br><span class="line">	unsigned short id; // identification number</span><br><span class="line">	unsigned char rd :1; // recursion desired</span><br><span class="line">	unsigned char tc :1; // truncated message</span><br><span class="line">	unsigned char aa :1; // authoritive answer</span><br><span class="line">	unsigned char opcode :4; // purpose of message</span><br><span class="line">	unsigned char qr :1; // query/response flag: 0=query; 1=response</span><br><span class="line">	 </span><br><span class="line">	unsigned char rcode :4;</span><br><span class="line">	unsigned char z :3;</span><br><span class="line">	unsigned char ra :1;</span><br><span class="line">	 </span><br><span class="line">	unsigned short qdcount;</span><br><span class="line">	unsigned short ancount;</span><br><span class="line">	unsigned short nscount;</span><br><span class="line">	unsigned short arcount;</span><br><span class="line">&#125; __attribute__((__packed__))dns_header_t;</span><br><span class="line"></span><br><span class="line">typedef struct</span><br><span class="line">&#123;</span><br><span class="line">	unsigned short qtype;</span><br><span class="line">	unsigned short qclass;</span><br><span class="line">&#125; dns_question_t;</span><br><span class="line"></span><br><span class="line">typedef struct </span><br><span class="line">&#123;</span><br><span class="line">	unsigned short type;</span><br><span class="line">	unsigned short class;</span><br><span class="line">	unsigned int ttl;</span><br><span class="line">	unsigned short rdlength;</span><br><span class="line">&#125; __attribute__((__packed__)) dns_rr_t;</span><br><span class="line"></span><br><span class="line">/* 读取配置文件中的dns服务器地址 成功则</span><br><span class="line">   把ip地址放入server_addr 返回0。 失败返回-1 */</span><br><span class="line">int read_dns_server_ip(char *server_addr, char *config_file);</span><br><span class="line"></span><br><span class="line">/* 解析dnsbuf中no位后的一个域名信息放到domain_buf中</span><br><span class="line">   domain_buf在函数外分配内存 */</span><br><span class="line">int get_domain(int no, char* domain_buf, unsigned char* dns_buf);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/* API入口参数检查 */</span><br><span class="line">int proto_check(char *proto);</span><br><span class="line">int type_check(char *type);</span><br><span class="line">int port_check(char *port);</span><br><span class="line">int parameter_check(char *domain, char *type, char *proto, char *port, char *server_ip);</span><br><span class="line"></span><br><span class="line">/* dest在外面分配好大小，大小为strlen(domain) + 2</span><br><span class="line"> * 把域名转换为数据包中的格式 www.abc.cn --&gt; 3www3abc2cn0 */</span><br><span class="line">int domain_transform(char *dest, char *domain);</span><br><span class="line"></span><br><span class="line">/* 创建一个dns查询包，返回包的长度 */</span><br><span class="line">int gen_dns_packet(char *buffer, char *domain_name, char *type, char *proto);</span><br><span class="line"></span><br><span class="line">/* 取得服务器的响应包，返回的是错误代码 */</span><br><span class="line">int get_dns_response(char *sendbuf, unsigned char * recv_buf, int sendbuf_len, char *proto, char *port, char *server_ip);</span><br><span class="line"></span><br><span class="line">/* 打印一条资源记录信息 */</span><br><span class="line">int print_dns_rr(unsigned char *data, int type, unsigned char *recv_buf, int offset);</span><br><span class="line"></span><br><span class="line">/* 打印dns响应包，返回服务器健康情况，*/</span><br><span class="line">int unpacket(unsigned char *recv_buf,char *proto, char *type);</span><br><span class="line"></span><br><span class="line">int dns_health_check(char *server_ip, char *domain, char *type, char *proto, char *port);</span><br><span class="line"></span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
-<h4 id="函数实现"><a href="#函数实现" class="headerlink" title="函数实现"></a>函数实现</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br><span class="line">467</span><br><span class="line">468</span><br><span class="line">469</span><br><span class="line">470</span><br><span class="line">471</span><br><span class="line">472</span><br><span class="line">473</span><br><span class="line">474</span><br><span class="line">475</span><br><span class="line">476</span><br><span class="line">477</span><br><span class="line">478</span><br><span class="line">479</span><br><span class="line">480</span><br><span class="line">481</span><br><span class="line">482</span><br><span class="line">483</span><br><span class="line">484</span><br><span class="line">485</span><br><span class="line">486</span><br><span class="line">487</span><br><span class="line">488</span><br><span class="line">489</span><br><span class="line">490</span><br><span class="line">491</span><br><span class="line">492</span><br><span class="line">493</span><br><span class="line">494</span><br><span class="line">495</span><br><span class="line">496</span><br><span class="line">497</span><br><span class="line">498</span><br><span class="line">499</span><br><span class="line">500</span><br><span class="line">501</span><br><span class="line">502</span><br><span class="line">503</span><br><span class="line">504</span><br><span class="line">505</span><br><span class="line">506</span><br><span class="line">507</span><br><span class="line">508</span><br><span class="line">509</span><br><span class="line">510</span><br><span class="line">511</span><br><span class="line">512</span><br><span class="line">513</span><br><span class="line">514</span><br><span class="line">515</span><br><span class="line">516</span><br><span class="line">517</span><br><span class="line">518</span><br><span class="line">519</span><br><span class="line">520</span><br><span class="line">521</span><br><span class="line">522</span><br><span class="line">523</span><br><span class="line">524</span><br><span class="line">525</span><br><span class="line">526</span><br><span class="line">527</span><br><span class="line">528</span><br><span class="line">529</span><br><span class="line">530</span><br><span class="line">531</span><br><span class="line">532</span><br><span class="line">533</span><br><span class="line">534</span><br><span class="line">535</span><br><span class="line">536</span><br><span class="line">537</span><br><span class="line">538</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">#include &lt;netinet/in.h&gt;</span><br><span class="line">#include &lt;netdb.h&gt;</span><br><span class="line">#include &lt;arpa/inet.h&gt; </span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;sys/stat.h&gt;</span><br><span class="line">#include &lt;fcntl.h&gt;</span><br><span class="line"></span><br><span class="line">#include &quot;dns_health_check.h&quot;</span><br><span class="line"></span><br><span class="line">#define A 		1</span><br><span class="line">#define NS		2</span><br><span class="line">#define AAAA 	28</span><br><span class="line">#define CNAME	5</span><br><span class="line">#define MX		15</span><br><span class="line">#define SOA		6</span><br><span class="line">#define TXT		16</span><br><span class="line"></span><br><span class="line">#define BUFFER_MAX_SIZE 2048 	/* dns查询包和响应包的最大大小 */</span><br><span class="line">#define DOMAIN_MAX_SIZE 256		/* 域名的最大长度 */</span><br><span class="line">#define DNS_RR_MAX_SIZE 256		/* 一条资源记录的最大长度 */</span><br><span class="line">#define TIMEOUT 5				/* 等待响应的最大时间 */</span><br><span class="line"></span><br><span class="line">#define DNS_CHECK_SUCCESS 0  </span><br><span class="line"></span><br><span class="line">#define DNS_SERVER_HEALTH 1</span><br><span class="line">#define DNS_SERVER_NOT_HEALTH 2</span><br><span class="line">#define PARAMETER_NO_ERROR 0</span><br><span class="line">#define PARAMETER_ERROR -1</span><br><span class="line">#define GET_DNS_SERVER_IP_ERROR -2</span><br><span class="line">#define QUARY_SEND_ERROR -3</span><br><span class="line">#define RESPONSE_RECV_ERROR -5</span><br><span class="line">#define TCP_CONNECT_ERROR -4</span><br><span class="line">#define SOCKET_ERROR -6</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/* 读取配置文件中的dns服务器地址 成功则把</span><br><span class="line">   ip地址放入server_addr 返回0。 失败返回-1 */</span><br><span class="line">int read_dns_server_ip(char *server_addr, char *config_file)</span><br><span class="line">&#123;</span><br><span class="line">	FILE *file;</span><br><span class="line">	char buffer[128];</span><br><span class="line">	int flag = 0;</span><br><span class="line">	file = fopen(config_file, &quot;r&quot;);</span><br><span class="line">	if (file == NULL)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(&quot;open %s filed!\n&quot;, config_file);</span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	while(!feof(file))</span><br><span class="line">	&#123;</span><br><span class="line">		memset(buffer, 0, sizeof(buffer));</span><br><span class="line">		fgets(buffer, sizeof(buffer), file);</span><br><span class="line">		if(buffer[0] == &apos;#&apos; || buffer[0] == &apos;\0&apos;)</span><br><span class="line">		&#123;</span><br><span class="line">			continue;</span><br><span class="line">		&#125;	</span><br><span class="line">		if(strstr(buffer, &quot;nameserver&quot;) != NULL)</span><br><span class="line">		&#123;</span><br><span class="line">			flag = 1;</span><br><span class="line">			break;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	fclose(file);</span><br><span class="line">	if (flag == 1)</span><br><span class="line">	&#123;</span><br><span class="line">		char *token = NULL;</span><br><span class="line">		token = strtok(buffer, &quot; &quot;);</span><br><span class="line">		token = strtok(NULL, &quot; &quot;);</span><br><span class="line">		token = strtok(token, &quot;\n&quot;);</span><br><span class="line">		memset(server_addr, 0, sizeof(server_addr));</span><br><span class="line">		sprintf(server_addr, &quot;%s&quot;,token);</span><br><span class="line"></span><br><span class="line">		return 0;</span><br><span class="line">	&#125;</span><br><span class="line">	else</span><br><span class="line">	&#123;</span><br><span class="line">		printf(&quot;read filed\n&quot;);</span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 解析dnsbuf中no位后的一个域名信息放到</span><br><span class="line"> * domain_buf中domain_buf在函数外分配内存</span><br><span class="line"> */</span><br><span class="line">int get_domain(int no, char* domain_buf, unsigned char* dns_buf)</span><br><span class="line">&#123;</span><br><span class="line">    int dns_buf_no = no;</span><br><span class="line">    int domain_buf_no = 0;</span><br><span class="line">    int jump_flag = 0;  /* 域名压缩的标志 */</span><br><span class="line">    int n;</span><br><span class="line">	int NO = 49152; /* 1100 0000 0000 0000 */</span><br><span class="line">	if(dns_buf[dns_buf_no] == 0)</span><br><span class="line">	&#123;</span><br><span class="line">		domain_buf[0] = &apos;.&apos;;</span><br><span class="line">		return no + 1;</span><br><span class="line">	&#125;</span><br><span class="line">    while (dns_buf[dns_buf_no] != 0) </span><br><span class="line">	&#123;</span><br><span class="line">        if (dns_buf[dns_buf_no] &lt; 192) /* 1100 0000 */</span><br><span class="line">		&#123;</span><br><span class="line">            n = dns_buf[dns_buf_no];</span><br><span class="line">            memcpy(domain_buf + domain_buf_no, dns_buf + dns_buf_no + 1, n);</span><br><span class="line">            domain_buf_no += n;</span><br><span class="line">            domain_buf[domain_buf_no++] = &apos;.&apos;;</span><br><span class="line">            dns_buf_no += n + 1;</span><br><span class="line">    		if (jump_flag == 0) </span><br><span class="line">			&#123;</span><br><span class="line">                no += n + 1;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; </span><br><span class="line">		else </span><br><span class="line">		&#123;</span><br><span class="line">            if (jump_flag == 0) </span><br><span class="line">			&#123;</span><br><span class="line">                no += 2;</span><br><span class="line">                jump_flag = 1;</span><br><span class="line">			&#125;</span><br><span class="line">			 dns_buf_no = dns_buf[dns_buf_no] * 256 + dns_buf[dns_buf_no + 1] - NO;     </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">    if (jump_flag == 0) </span><br><span class="line">		no = no + 1;</span><br><span class="line">    domain_buf[domain_buf_no] = 0;</span><br><span class="line">    return no;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int domain_check(char *domain)</span><br><span class="line">&#123;</span><br><span class="line">	if (domain == NULL)</span><br><span class="line">	&#123;</span><br><span class="line">		return PARAMETER_ERROR;</span><br><span class="line">	&#125;</span><br><span class="line">	else </span><br><span class="line">	&#123;</span><br><span class="line">		return PARAMETER_NO_ERROR;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int proto_check(char *proto)</span><br><span class="line">&#123;</span><br><span class="line">	if (proto == NULL)</span><br><span class="line">	&#123;</span><br><span class="line">		return PARAMETER_ERROR;</span><br><span class="line">	&#125;</span><br><span class="line">	if(strncmp(proto, &quot;UDP&quot;, 3) != 0 &amp;&amp; strncmp(proto, &quot;TCP&quot;, 3) != 0)</span><br><span class="line">	&#123;</span><br><span class="line">		return PARAMETER_ERROR;</span><br><span class="line">	&#125;</span><br><span class="line">	else</span><br><span class="line">	&#123;</span><br><span class="line">		return PARAMETER_NO_ERROR;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int type_check(char *type)</span><br><span class="line">&#123;</span><br><span class="line">	if (type == NULL)</span><br><span class="line">		return PARAMETER_ERROR;</span><br><span class="line">	</span><br><span class="line">	else if (strcmp(type, &quot;A&quot;) == 0) </span><br><span class="line">		return A;</span><br><span class="line">	</span><br><span class="line">	else if (strncmp(type, &quot;CNAME&quot;, 5) == 0) </span><br><span class="line">		return CNAME;</span><br><span class="line">	</span><br><span class="line">	else if (strncmp(type, &quot;NS&quot;, 2) == 0) </span><br><span class="line">		return NS;</span><br><span class="line">	</span><br><span class="line">	else if (strncmp(type, &quot;AAAA&quot;, 4) == 0) </span><br><span class="line">		return AAAA;</span><br><span class="line">	</span><br><span class="line">	else if (strncmp(type, &quot;MX&quot;, 2) == 0) </span><br><span class="line">		return MX;</span><br><span class="line">	</span><br><span class="line">	else if (strncmp(type, &quot;SOA&quot;, 3) == 0) </span><br><span class="line">		return SOA;</span><br><span class="line">	</span><br><span class="line">	else if (strncmp(type, &quot;TXT&quot;, 3) == 0) </span><br><span class="line">		return TXT;</span><br><span class="line">	</span><br><span class="line">	else</span><br><span class="line">		return PARAMETER_ERROR;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int port_check(char *port)</span><br><span class="line">&#123;</span><br><span class="line">	if (port == NULL)</span><br><span class="line">	&#123;</span><br><span class="line">		return PARAMETER_ERROR;</span><br><span class="line">	&#125;</span><br><span class="line">	int num = atoi(port);</span><br><span class="line">	if (num &lt;=0 )</span><br><span class="line">	&#123;</span><br><span class="line">		return PARAMETER_ERROR;</span><br><span class="line">	&#125;</span><br><span class="line">	return num;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int parameter_check(char *domain, char *type, char *proto, char *port, char *server_ip)</span><br><span class="line">&#123;</span><br><span class="line">	if (domain == NULL || type_check(type) == PARAMETER_ERROR || server_ip == NULL \</span><br><span class="line">		|| proto_check(proto) == PARAMETER_ERROR || port_check(port) == PARAMETER_ERROR)</span><br><span class="line">	&#123;</span><br><span class="line">		return PARAMETER_ERROR;</span><br><span class="line">	&#125;</span><br><span class="line">	else </span><br><span class="line">	&#123;</span><br><span class="line">		return PARAMETER_NO_ERROR;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* dest在外面分配好大小，大小为strlen(domain) + 2</span><br><span class="line"> * 把域名转换为数据包中的格式 www.abc.cn --&gt; 3www3abc2cn0 */</span><br><span class="line">int domain_transform(char *dest, char *domain)</span><br><span class="line">&#123;</span><br><span class="line">	if (dest == NULL || domain == NULL)</span><br><span class="line">	&#123;</span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br><span class="line">	char domain_copy[128];</span><br><span class="line">	memset(domain_copy, 0, 128);</span><br><span class="line">	strcpy(domain_copy, domain);</span><br><span class="line">	</span><br><span class="line">	char *token = NULL;</span><br><span class="line">	int token_length = 0;</span><br><span class="line">	int offset = 0;</span><br><span class="line">	token = strtok(domain_copy, &quot;.&quot;);</span><br><span class="line">	while (token != NULL)</span><br><span class="line">	&#123;</span><br><span class="line">		offset += token_length;</span><br><span class="line">		token_length = strlen(token);</span><br><span class="line">		dest[offset] = token_length;</span><br><span class="line">		sprintf(dest + offset + 1, &quot;%s&quot;, token);</span><br><span class="line">		token_length++;</span><br><span class="line">		token = strtok(NULL, &quot;.&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	dest[offset + token_length] = 0;</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 创建一个dns查询包，返回包的长度 */</span><br><span class="line">int gen_dns_packet(char *buffer, char *domain_name, char *type, char *proto)</span><br><span class="line">&#123;</span><br><span class="line">	dns_header_t header;</span><br><span class="line">	dns_question_t question;</span><br><span class="line">	int offset = 0;</span><br><span class="line">	char domain[strlen(domain_name) + 2];</span><br><span class="line">	</span><br><span class="line">	domain_transform(domain, domain_name);</span><br><span class="line">	header.id = 1;</span><br><span class="line">    header.rd = 1;</span><br><span class="line">    header.tc = 0;</span><br><span class="line">    header.aa = 0;</span><br><span class="line">    header.opcode = 0;</span><br><span class="line">    header.qr = 0;</span><br><span class="line">    header.rcode = 0;</span><br><span class="line">    header.z = 0;</span><br><span class="line">    header.ra = 0;</span><br><span class="line">    header.qdcount = htons(1);  </span><br><span class="line">    header.ancount = htons(0);</span><br><span class="line">    header.nscount = htons(0);</span><br><span class="line">    header.arcount = htons(0);</span><br><span class="line">	question.qclass = htons(1);</span><br><span class="line">	question.qtype = htons(type_check(type));</span><br><span class="line">	</span><br><span class="line">	if (strncmp(proto, &quot;TCP&quot;, 3) == 0) </span><br><span class="line">	&#123;</span><br><span class="line">		/*tcp报文头部 比dns报文多两个八位组用来表示接下来要发送的长度 */</span><br><span class="line">		unsigned short length ;</span><br><span class="line">		length = htons(sizeof(dns_header_t) + sizeof(domain) + sizeof(dns_question_t));									</span><br><span class="line">		memcpy(buffer, &amp;length, sizeof(unsigned short));</span><br><span class="line">		offset += sizeof(unsigned short);</span><br><span class="line">	&#125;</span><br><span class="line">	memcpy(buffer + offset, &amp;header, sizeof(header));</span><br><span class="line">	offset += sizeof(header);</span><br><span class="line">	memcpy(buffer + offset, domain, sizeof(domain));</span><br><span class="line">	offset += sizeof(domain);</span><br><span class="line">	memcpy(buffer + offset, &amp;question, sizeof(dns_question_t));</span><br><span class="line">	offset += sizeof(dns_question_t);</span><br><span class="line">	</span><br><span class="line">	return offset;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 取得服务器的响应包，返回的是错误代码 */</span><br><span class="line">int get_dns_response(char *sendbuf, unsigned char * recv_buf, int sendbuf_len, char *proto, char *port, char *server_ip)</span><br><span class="line">&#123;</span><br><span class="line">	int sockfd;</span><br><span class="line">	int ret;</span><br><span class="line">	struct sockaddr_in addr;</span><br><span class="line">	struct timeval tv;</span><br><span class="line">	</span><br><span class="line">	memset(&amp;addr, 0, sizeof(addr));</span><br><span class="line">	addr.sin_family = AF_INET;</span><br><span class="line">	addr.sin_port = htons(atoi(port));</span><br><span class="line">	addr.sin_addr.s_addr = inet_addr(server_ip);</span><br><span class="line">	tv.tv_usec = 0;</span><br><span class="line">	tv.tv_sec = TIMEOUT;</span><br><span class="line">	</span><br><span class="line">	if(strncmp(proto, &quot;TCP&quot;, 3) == 0)</span><br><span class="line">	&#123;</span><br><span class="line">		sockfd = socket(AF_INET, SOCK_STREAM, 0);</span><br><span class="line">		if (sockfd &lt; 0)</span><br><span class="line">		&#123;</span><br><span class="line">			return SOCKET_ERROR;</span><br><span class="line">		&#125;</span><br><span class="line">		setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, &amp;tv, sizeof (tv));</span><br><span class="line">		setsockopt(sockfd, SOL_SOCKET, SO_SNDTIMEO, &amp;tv, sizeof (tv));</span><br><span class="line">		</span><br><span class="line">		ret = connect(sockfd, (struct sockaddr *)&amp;addr, sizeof(struct sockaddr));</span><br><span class="line">		if (ret &lt; 0)</span><br><span class="line">		&#123;</span><br><span class="line">			return TCP_CONNECT_ERROR;	</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		ret = write(sockfd, sendbuf, sendbuf_len);</span><br><span class="line">		if (ret &lt; 0)</span><br><span class="line">		&#123;</span><br><span class="line">			return QUARY_SEND_ERROR;	</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		memset(sendbuf, 0, BUFFER_MAX_SIZE);</span><br><span class="line">		ret = read(sockfd, recv_buf, BUFFER_MAX_SIZE);</span><br><span class="line">		if (ret &lt; 0)</span><br><span class="line">		&#123;</span><br><span class="line">			return RESPONSE_RECV_ERROR;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	else</span><br><span class="line">	&#123;</span><br><span class="line">		socklen_t len;</span><br><span class="line">		sockfd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);</span><br><span class="line">		if (sockfd &lt; 0)</span><br><span class="line">		&#123;</span><br><span class="line">			return SOCKET_ERROR;</span><br><span class="line">		&#125;</span><br><span class="line">		setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, &amp;tv, sizeof (tv));</span><br><span class="line">		setsockopt(sockfd, SOL_SOCKET, SO_SNDTIMEO, &amp;tv, sizeof (tv));</span><br><span class="line">		</span><br><span class="line">		ret = sendto(sockfd, sendbuf, sendbuf_len, 0, (struct sockaddr*)&amp;addr, sizeof(struct sockaddr_in));</span><br><span class="line">		if (ret &lt; 0)</span><br><span class="line">		&#123;</span><br><span class="line">			return QUARY_SEND_ERROR;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		memset(sendbuf, 0, BUFFER_MAX_SIZE);</span><br><span class="line">	</span><br><span class="line">		ret = recvfrom(sockfd, recv_buf, BUFFER_MAX_SIZE, 0, (struct sockaddr*)&amp;addr, &amp;len);</span><br><span class="line">		if (ret &lt; 0)</span><br><span class="line">		&#123;</span><br><span class="line">			return RESPONSE_RECV_ERROR;</span><br><span class="line">		&#125; </span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	close(sockfd);</span><br><span class="line">	return DNS_CHECK_SUCCESS;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 打印资源记录信息 */</span><br><span class="line">int print_dns_rr(unsigned char *data, int type, unsigned char *recv_buf, int offset)</span><br><span class="line">&#123;</span><br><span class="line">	switch (type)</span><br><span class="line">	&#123;</span><br><span class="line">		case A:</span><br><span class="line">		&#123;</span><br><span class="line">			printf(&quot;%-10s%i.%i.%i.%i\n&quot;, &quot;A&quot;, data[0], data[1], data[2], data[3]);</span><br><span class="line">			break;	</span><br><span class="line">		&#125;				</span><br><span class="line">		case CNAME:</span><br><span class="line">		&#123;</span><br><span class="line">			char cname[DOMAIN_MAX_SIZE]=&#123;0&#125;;</span><br><span class="line">			get_domain(offset, cname, recv_buf);</span><br><span class="line">			printf(&quot;%-10s%-s\n&quot;, &quot;CNAME&quot;, cname);</span><br><span class="line">			break;	</span><br><span class="line">		&#125;		</span><br><span class="line">		case NS:</span><br><span class="line">		&#123;</span><br><span class="line">			char ns_name[DOMAIN_MAX_SIZE];</span><br><span class="line">			get_domain(offset, ns_name, recv_buf);</span><br><span class="line">			printf(&quot;%-10s%-s\n&quot;, &quot;NS&quot;, ns_name);</span><br><span class="line">			break;</span><br><span class="line">		&#125;</span><br><span class="line">		case SOA:</span><br><span class="line">		&#123;</span><br><span class="line">			char mname[100] = &#123;0&#125;;</span><br><span class="line">			char rname[100] = &#123;0&#125;;</span><br><span class="line">			unsigned int serial, refresh, retry, expire, minimum; </span><br><span class="line">			int n1 = get_domain(offset, mname, recv_buf);</span><br><span class="line">			n1 = get_domain(n1, rname, recv_buf);</span><br><span class="line">			serial = *(unsigned int*) (data + n1);</span><br><span class="line">			n1 += 4;</span><br><span class="line">			refresh = *(unsigned int *) (data + n1);</span><br><span class="line">			n1 += 4;</span><br><span class="line">			retry = *(unsigned int *) (data + n1);</span><br><span class="line">			n1 += 4;</span><br><span class="line">			expire = *(unsigned int *) (data + n1);</span><br><span class="line">			n1 += 4;</span><br><span class="line">			minimum = *(unsigned int *) (data + n1);</span><br><span class="line">			printf(&quot;SOA %s %s %u %u %u %u %u n&quot;,</span><br><span class="line">					mname, rname, ntohl(serial), ntohl(refresh),</span><br><span class="line">					ntohl(retry), ntohl(expire), ntohl(minimum));</span><br><span class="line">			break;</span><br><span class="line">		&#125;</span><br><span class="line">			</span><br><span class="line">		case MX:</span><br><span class="line">		&#123;</span><br><span class="line">			int preference = *(unsigned short*) data;</span><br><span class="line">			char exchange[100];</span><br><span class="line">			get_domain(offset + 2, exchange, recv_buf);</span><br><span class="line">			printf(&quot;MX\t%i\t%s\n&quot;, ntohs(preference), exchange);</span><br><span class="line">			break;</span><br><span class="line">		&#125;</span><br><span class="line">		case TXT:</span><br><span class="line">			printf(&quot;TXT\t%s\n&quot;, data + 1);</span><br><span class="line">			break;</span><br><span class="line">		case AAAA:</span><br><span class="line">		&#123;</span><br><span class="line">			printf(&quot;%-10s&quot;,&quot;AAAA&quot;);</span><br><span class="line">			int i=0;</span><br><span class="line">			while(i &lt; 7)</span><br><span class="line">			&#123;</span><br><span class="line">				printf(&quot;%02x%02x:&quot;, data[2*i],data[2*i+1]);</span><br><span class="line">				i++;</span><br><span class="line">			&#125;</span><br><span class="line">			printf(&quot;%02x%02x\n&quot;,data[14], data[15]);</span><br><span class="line">			break;	</span><br><span class="line">		&#125;			</span><br><span class="line">		default:</span><br><span class="line">			printf(&quot;\n&quot;);	</span><br><span class="line">	&#125;</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 打印dns响应包，返回服务器健康情况，*/</span><br><span class="line">int unpacket(unsigned char *recv_buf,char *proto, char *type)</span><br><span class="line">&#123;</span><br><span class="line">	int result = DNS_SERVER_NOT_HEALTH; /*dns服务器是否健康， 1表示健康， 0 表示有问题 */</span><br><span class="line">	char domain[DOMAIN_MAX_SIZE];</span><br><span class="line">	memset(domain, 0, sizeof(domain));</span><br><span class="line">	int rr_no;</span><br><span class="line">	dns_header_t header;</span><br><span class="line">	dns_question_t question;</span><br><span class="line">	int offset = 0;</span><br><span class="line">	</span><br><span class="line">	if(strncmp(proto, &quot;TCP&quot;, 3) == 0)</span><br><span class="line">	&#123;</span><br><span class="line">		/* 去掉tcp头部的表示长度的块 */</span><br><span class="line">		memcpy(recv_buf, recv_buf + 2, BUFFER_MAX_SIZE-2);</span><br><span class="line">	&#125;</span><br><span class="line">	memcpy(&amp;header, recv_buf + offset, sizeof(dns_header_t));</span><br><span class="line">	offset += sizeof(dns_header_t);</span><br><span class="line">	</span><br><span class="line">	get_domain(offset, domain, recv_buf);</span><br><span class="line">	offset += strlen(domain) + 1;</span><br><span class="line"></span><br><span class="line">	memcpy(&amp;question, recv_buf + offset, sizeof(dns_question_t));</span><br><span class="line">	offset += sizeof(dns_question_t);</span><br><span class="line">	</span><br><span class="line">	rr_no = ntohs(header.ancount) + ntohs(header.nscount) + ntohs(header.arcount);</span><br><span class="line">	if (rr_no &gt; 0)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(&quot;;;QUESTION: \n&quot;);</span><br><span class="line">		printf(&quot;;%-32s%-10s%s\n&quot;, domain, &quot;IN&quot;, type);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	if (rr_no &gt; 0)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(&quot;\n;;ANSWER SECTION:\n&quot;);    </span><br><span class="line">	&#125;</span><br><span class="line">	dns_rr_t rr;</span><br><span class="line">	unsigned char data[DNS_RR_MAX_SIZE];</span><br><span class="line">	while (rr_no &gt; 0)</span><br><span class="line">	&#123;</span><br><span class="line">		memset(domain, 0, sizeof(domain));</span><br><span class="line">		memset(data, 0, sizeof(data));</span><br><span class="line">		offset = get_domain(offset, domain, recv_buf);</span><br><span class="line">		memcpy(&amp;rr, recv_buf + offset, sizeof(dns_rr_t));</span><br><span class="line">		offset += sizeof(dns_rr_t);</span><br><span class="line">		memcpy(data, recv_buf + offset, ntohs(rr.rdlength));</span><br><span class="line">		</span><br><span class="line">		int type = ntohs(rr.type);</span><br><span class="line">		if (type == A ||type == AAAA ||type == CNAME ||type == NS|| type == SOA || type == MX || type == TXT)</span><br><span class="line">		&#123;</span><br><span class="line">			if (type == htons(question.qtype))</span><br><span class="line">				result = DNS_SERVER_HEALTH;</span><br><span class="line">			</span><br><span class="line">			printf(&quot;%-25s%-8d%-10s&quot;,domain, ntohl(rr.ttl),&quot;IN&quot;);</span><br><span class="line">			print_dns_rr(data, type, recv_buf, offset);</span><br><span class="line">		&#125;</span><br><span class="line">		offset += ntohs(rr.rdlength);</span><br><span class="line">		rr_no--;</span><br><span class="line">		if (rr_no == ntohs(header.nscount) + ntohs(header.arcount) &amp;&amp; ntohs(header.nscount) &gt; 0) </span><br><span class="line">		&#123;</span><br><span class="line">		 printf(&quot;\n;;AUTHORITY SECTION:\n&quot;);</span><br><span class="line">		&#125;</span><br><span class="line">		if (rr_no == ntohs(header.arcount) &amp;&amp; ntohs(header.arcount) &gt; 0) </span><br><span class="line">		&#123;</span><br><span class="line">			printf(&quot;\n;;ADDITIONAL SECTION:\n&quot;);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	printf(&quot;\n&quot;);</span><br><span class="line">	return result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int dns_health_check(char *server_ip, char *domain, char *type, char *proto, char *port)</span><br><span class="line">&#123;</span><br><span class="line">	</span><br><span class="line">	int offset;</span><br><span class="line">	int result;</span><br><span class="line">	result = parameter_check(domain, type, proto, port, server_ip);</span><br><span class="line">	if (result == -1)</span><br><span class="line">	&#123;</span><br><span class="line">		return PARAMETER_ERROR;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	char sendbuf[BUFFER_MAX_SIZE];</span><br><span class="line">	unsigned char recv_buf[BUFFER_MAX_SIZE];</span><br><span class="line">	memset(sendbuf, 0, sizeof(sendbuf));</span><br><span class="line">	memset(recv_buf,0, sizeof(recv_buf));</span><br><span class="line">	</span><br><span class="line">	offset = gen_dns_packet(sendbuf, domain, type, proto);</span><br><span class="line">	result = get_dns_response(sendbuf, recv_buf, offset, proto, port, server_ip);</span><br><span class="line">	if (result != DNS_CHECK_SUCCESS)</span><br><span class="line">	&#123;</span><br><span class="line">		return result;</span><br><span class="line">	&#125;</span><br><span class="line">	result = unpacket(recv_buf, proto, type);</span><br><span class="line">	</span><br><span class="line">	return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="main文件"><a href="#main文件" class="headerlink" title="main文件"></a>main文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">#include &quot;dns_health_check.h&quot;</span><br><span class="line"></span><br><span class="line">#define DNS_CHECK_SUCCESS 0</span><br><span class="line">#define DNS_SERVER_HEALTH 1</span><br><span class="line">#define DNS_SERVER_NOT_HEALTH 2</span><br><span class="line"></span><br><span class="line">#define PARAMETER_ERROR -1</span><br><span class="line">#define GET_DNS_SERVER_IP_ERROR -2</span><br><span class="line">#define QUARY_SEND_ERROR -3</span><br><span class="line">#define RESPONSE_RECV_ERROR -5</span><br><span class="line">#define TCP_CONNECT_ERROR -4</span><br><span class="line">#define SOCKET_ERROR -6</span><br><span class="line"></span><br><span class="line">int main(int argc, char **argv)</span><br><span class="line">&#123;</span><br><span class="line">	int result;</span><br><span class="line">	result = dns_health_check(&quot;8.8.8.8&quot;, &quot;www.baidu.com&quot;, &quot;A&quot;, &quot;UDP&quot;, &quot;53&quot;);</span><br><span class="line">	switch(result)</span><br><span class="line">	&#123;</span><br><span class="line">		case DNS_SERVER_HEALTH:</span><br><span class="line">			printf(&quot;DNS_SERVER_HEALTH\n&quot;);	break;</span><br><span class="line">		case DNS_SERVER_NOT_HEALTH :          </span><br><span class="line">			printf(&quot;DNS_SERVER_NOT_HEALTH\n&quot;);break;  </span><br><span class="line">		case PARAMETER_ERROR :                 </span><br><span class="line">			printf(&quot;PARAMETER_ERROR\n&quot;);break;</span><br><span class="line">		case QUARY_SEND_ERROR :                </span><br><span class="line">			printf(&quot;QUARY_SEND_ERROR\n&quot;);break;</span><br><span class="line">		case RESPONSE_RECV_ERROR :              </span><br><span class="line">			printf(&quot;RESPONSE_RECV_ERROR\n&quot;);break;</span><br><span class="line">		case TCP_CONNECT_ERROR :                </span><br><span class="line">			printf(&quot;TCP_CONNECT_ERROR\n&quot;);break;</span><br><span class="line">		case SOCKET_ERROR :                     </span><br><span class="line">			printf(&quot;SOCKET_ERROR\n&quot;);break;	</span><br><span class="line">	&#125;</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><h4 id="头文件声明"><a href="#头文件声明" class="headerlink" title="头文件声明"></a>头文件声明</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> DNS_HEALTH_CHECK_H_H</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DNS_HEALTH_CHECK_H_H</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> </span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">short</span> id; <span class="comment">// identification number</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> rd :<span class="number">1</span>; <span class="comment">// recursion desired</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> tc :<span class="number">1</span>; <span class="comment">// truncated message</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> aa :<span class="number">1</span>; <span class="comment">// authoritive answer</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> opcode :<span class="number">4</span>; <span class="comment">// purpose of message</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> qr :<span class="number">1</span>; <span class="comment">// query/response flag: 0=query; 1=response</span></span><br><span class="line">	 </span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> rcode :<span class="number">4</span>;</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> z :<span class="number">3</span>;</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> ra :<span class="number">1</span>;</span><br><span class="line">	 </span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">short</span> qdcount;</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">short</span> ancount;</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">short</span> nscount;</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">short</span> arcount;</span><br><span class="line">&#125; __attribute__((__packed__))<span class="keyword">dns_header_t</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">short</span> qtype;</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">short</span> qclass;</span><br><span class="line">&#125; <span class="keyword">dns_question_t</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> </span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">short</span> type;</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">short</span> <span class="class"><span class="keyword">class</span>;</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> ttl;</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">short</span> rdlength;</span><br><span class="line">&#125; __attribute__((__packed__)) <span class="keyword">dns_rr_t</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 读取配置文件中的dns服务器地址 成功则</span></span><br><span class="line"><span class="comment">   把ip地址放入server_addr 返回0。 失败返回-1 */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">read_dns_server_ip</span><span class="params">(<span class="keyword">char</span> *server_addr, <span class="keyword">char</span> *config_file)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 解析dnsbuf中no位后的一个域名信息放到domain_buf中</span></span><br><span class="line"><span class="comment">   domain_buf在函数外分配内存 */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">get_domain</span><span class="params">(<span class="keyword">int</span> no, <span class="keyword">char</span>* domain_buf, <span class="keyword">unsigned</span> <span class="keyword">char</span>* dns_buf)</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/* API入口参数检查 */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">proto_check</span><span class="params">(<span class="keyword">char</span> *proto)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">type_check</span><span class="params">(<span class="keyword">char</span> *type)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">port_check</span><span class="params">(<span class="keyword">char</span> *port)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">parameter_check</span><span class="params">(<span class="keyword">char</span> *domain, <span class="keyword">char</span> *type, <span class="keyword">char</span> *proto, <span class="keyword">char</span> *port, <span class="keyword">char</span> *server_ip)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* dest在外面分配好大小，大小为strlen(domain) + 2</span></span><br><span class="line"><span class="comment"> * 把域名转换为数据包中的格式 www.abc.cn --&gt; 3www3abc2cn0 */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">domain_transform</span><span class="params">(<span class="keyword">char</span> *dest, <span class="keyword">char</span> *domain)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 创建一个dns查询包，返回包的长度 */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">gen_dns_packet</span><span class="params">(<span class="keyword">char</span> *buffer, <span class="keyword">char</span> *domain_name, <span class="keyword">char</span> *type, <span class="keyword">char</span> *proto)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 取得服务器的响应包，返回的是错误代码 */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">get_dns_response</span><span class="params">(<span class="keyword">char</span> *sendbuf, <span class="keyword">unsigned</span> <span class="keyword">char</span> * recv_buf, <span class="keyword">int</span> sendbuf_len, <span class="keyword">char</span> *proto, <span class="keyword">char</span> *port, <span class="keyword">char</span> *server_ip)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 打印一条资源记录信息 */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">print_dns_rr</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">char</span> *data, <span class="keyword">int</span> type, <span class="keyword">unsigned</span> <span class="keyword">char</span> *recv_buf, <span class="keyword">int</span> offset)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 打印dns响应包，返回服务器健康情况，*/</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">unpacket</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">char</span> *recv_buf,<span class="keyword">char</span> *proto, <span class="keyword">char</span> *type)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">dns_health_check</span><span class="params">(<span class="keyword">char</span> *server_ip, <span class="keyword">char</span> *domain, <span class="keyword">char</span> *type, <span class="keyword">char</span> *proto, <span class="keyword">char</span> *port)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<h4 id="函数实现"><a href="#函数实现" class="headerlink" title="函数实现"></a>函数实现</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br><span class="line">467</span><br><span class="line">468</span><br><span class="line">469</span><br><span class="line">470</span><br><span class="line">471</span><br><span class="line">472</span><br><span class="line">473</span><br><span class="line">474</span><br><span class="line">475</span><br><span class="line">476</span><br><span class="line">477</span><br><span class="line">478</span><br><span class="line">479</span><br><span class="line">480</span><br><span class="line">481</span><br><span class="line">482</span><br><span class="line">483</span><br><span class="line">484</span><br><span class="line">485</span><br><span class="line">486</span><br><span class="line">487</span><br><span class="line">488</span><br><span class="line">489</span><br><span class="line">490</span><br><span class="line">491</span><br><span class="line">492</span><br><span class="line">493</span><br><span class="line">494</span><br><span class="line">495</span><br><span class="line">496</span><br><span class="line">497</span><br><span class="line">498</span><br><span class="line">499</span><br><span class="line">500</span><br><span class="line">501</span><br><span class="line">502</span><br><span class="line">503</span><br><span class="line">504</span><br><span class="line">505</span><br><span class="line">506</span><br><span class="line">507</span><br><span class="line">508</span><br><span class="line">509</span><br><span class="line">510</span><br><span class="line">511</span><br><span class="line">512</span><br><span class="line">513</span><br><span class="line">514</span><br><span class="line">515</span><br><span class="line">516</span><br><span class="line">517</span><br><span class="line">518</span><br><span class="line">519</span><br><span class="line">520</span><br><span class="line">521</span><br><span class="line">522</span><br><span class="line">523</span><br><span class="line">524</span><br><span class="line">525</span><br><span class="line">526</span><br><span class="line">527</span><br><span class="line">528</span><br><span class="line">529</span><br><span class="line">530</span><br><span class="line">531</span><br><span class="line">532</span><br><span class="line">533</span><br><span class="line">534</span><br><span class="line">535</span><br><span class="line">536</span><br><span class="line">537</span><br><span class="line">538</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netinet/in.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;netdb.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;arpa/inet.h&gt; </span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/stat.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fcntl.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"dns_health_check.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> A 		1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> NS		2</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> AAAA 	28</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CNAME	5</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MX		15</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SOA		6</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> TXT		16</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> BUFFER_MAX_SIZE 2048 	<span class="comment">/* dns查询包和响应包的最大大小 */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DOMAIN_MAX_SIZE 256		<span class="comment">/* 域名的最大长度 */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DNS_RR_MAX_SIZE 256		<span class="comment">/* 一条资源记录的最大长度 */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> TIMEOUT 5				<span class="comment">/* 等待响应的最大时间 */</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DNS_CHECK_SUCCESS 0  </span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DNS_SERVER_HEALTH 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DNS_SERVER_NOT_HEALTH 2</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PARAMETER_NO_ERROR 0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PARAMETER_ERROR -1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> GET_DNS_SERVER_IP_ERROR -2</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> QUARY_SEND_ERROR -3</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> RESPONSE_RECV_ERROR -5</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> TCP_CONNECT_ERROR -4</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SOCKET_ERROR -6</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 读取配置文件中的dns服务器地址 成功则把</span></span><br><span class="line"><span class="comment">   ip地址放入server_addr 返回0。 失败返回-1 */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">read_dns_server_ip</span><span class="params">(<span class="keyword">char</span> *server_addr, <span class="keyword">char</span> *config_file)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	FILE *file;</span><br><span class="line">	<span class="keyword">char</span> buffer[<span class="number">128</span>];</span><br><span class="line">	<span class="keyword">int</span> flag = <span class="number">0</span>;</span><br><span class="line">	file = fopen(config_file, <span class="string">"r"</span>);</span><br><span class="line">	<span class="keyword">if</span> (file == <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"open %s filed!\n"</span>, config_file);</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">while</span>(!feof(file))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">memset</span>(buffer, <span class="number">0</span>, <span class="keyword">sizeof</span>(buffer));</span><br><span class="line">		fgets(buffer, <span class="keyword">sizeof</span>(buffer), file);</span><br><span class="line">		<span class="keyword">if</span>(buffer[<span class="number">0</span>] == <span class="string">'#'</span> || buffer[<span class="number">0</span>] == <span class="string">'\0'</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">continue</span>;</span><br><span class="line">		&#125;	</span><br><span class="line">		<span class="keyword">if</span>(<span class="built_in">strstr</span>(buffer, <span class="string">"nameserver"</span>) != <span class="literal">NULL</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			flag = <span class="number">1</span>;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	fclose(file);</span><br><span class="line">	<span class="keyword">if</span> (flag == <span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">char</span> *token = <span class="literal">NULL</span>;</span><br><span class="line">		token = strtok(buffer, <span class="string">" "</span>);</span><br><span class="line">		token = strtok(<span class="literal">NULL</span>, <span class="string">" "</span>);</span><br><span class="line">		token = strtok(token, <span class="string">"\n"</span>);</span><br><span class="line">		<span class="built_in">memset</span>(server_addr, <span class="number">0</span>, <span class="keyword">sizeof</span>(server_addr));</span><br><span class="line">		<span class="built_in">sprintf</span>(server_addr, <span class="string">"%s"</span>,token);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"read filed\n"</span>);</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 解析dnsbuf中no位后的一个域名信息放到</span></span><br><span class="line"><span class="comment"> * domain_buf中domain_buf在函数外分配内存</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">get_domain</span><span class="params">(<span class="keyword">int</span> no, <span class="keyword">char</span>* domain_buf, <span class="keyword">unsigned</span> <span class="keyword">char</span>* dns_buf)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> dns_buf_no = no;</span><br><span class="line">    <span class="keyword">int</span> domain_buf_no = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> jump_flag = <span class="number">0</span>;  <span class="comment">/* 域名压缩的标志 */</span></span><br><span class="line">    <span class="keyword">int</span> n;</span><br><span class="line">	<span class="keyword">int</span> NO = <span class="number">49152</span>; <span class="comment">/* 1100 0000 0000 0000 */</span></span><br><span class="line">	<span class="keyword">if</span>(dns_buf[dns_buf_no] == <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		domain_buf[<span class="number">0</span>] = <span class="string">'.'</span>;</span><br><span class="line">		<span class="keyword">return</span> no + <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="keyword">while</span> (dns_buf[dns_buf_no] != <span class="number">0</span>) </span><br><span class="line">	&#123;</span><br><span class="line">        <span class="keyword">if</span> (dns_buf[dns_buf_no] &lt; <span class="number">192</span>) <span class="comment">/* 1100 0000 */</span></span><br><span class="line">		&#123;</span><br><span class="line">            n = dns_buf[dns_buf_no];</span><br><span class="line">            <span class="built_in">memcpy</span>(domain_buf + domain_buf_no, dns_buf + dns_buf_no + <span class="number">1</span>, n);</span><br><span class="line">            domain_buf_no += n;</span><br><span class="line">            domain_buf[domain_buf_no++] = <span class="string">'.'</span>;</span><br><span class="line">            dns_buf_no += n + <span class="number">1</span>;</span><br><span class="line">    		<span class="keyword">if</span> (jump_flag == <span class="number">0</span>) </span><br><span class="line">			&#123;</span><br><span class="line">                no += n + <span class="number">1</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; </span><br><span class="line">		<span class="keyword">else</span> </span><br><span class="line">		&#123;</span><br><span class="line">            <span class="keyword">if</span> (jump_flag == <span class="number">0</span>) </span><br><span class="line">			&#123;</span><br><span class="line">                no += <span class="number">2</span>;</span><br><span class="line">                jump_flag = <span class="number">1</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			 dns_buf_no = dns_buf[dns_buf_no] * <span class="number">256</span> + dns_buf[dns_buf_no + <span class="number">1</span>] - NO;     </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="keyword">if</span> (jump_flag == <span class="number">0</span>) </span><br><span class="line">		no = no + <span class="number">1</span>;</span><br><span class="line">    domain_buf[domain_buf_no] = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">return</span> no;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">domain_check</span><span class="params">(<span class="keyword">char</span> *domain)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (domain == <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> PARAMETER_ERROR;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> </span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> PARAMETER_NO_ERROR;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">proto_check</span><span class="params">(<span class="keyword">char</span> *proto)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (proto == <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> PARAMETER_ERROR;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(<span class="built_in">strncmp</span>(proto, <span class="string">"UDP"</span>, <span class="number">3</span>) != <span class="number">0</span> &amp;&amp; <span class="built_in">strncmp</span>(proto, <span class="string">"TCP"</span>, <span class="number">3</span>) != <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> PARAMETER_ERROR;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> PARAMETER_NO_ERROR;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">type_check</span><span class="params">(<span class="keyword">char</span> *type)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (type == <span class="literal">NULL</span>)</span><br><span class="line">		<span class="keyword">return</span> PARAMETER_ERROR;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">strcmp</span>(type, <span class="string">"A"</span>) == <span class="number">0</span>) </span><br><span class="line">		<span class="keyword">return</span> A;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">strncmp</span>(type, <span class="string">"CNAME"</span>, <span class="number">5</span>) == <span class="number">0</span>) </span><br><span class="line">		<span class="keyword">return</span> CNAME;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">strncmp</span>(type, <span class="string">"NS"</span>, <span class="number">2</span>) == <span class="number">0</span>) </span><br><span class="line">		<span class="keyword">return</span> NS;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">strncmp</span>(type, <span class="string">"AAAA"</span>, <span class="number">4</span>) == <span class="number">0</span>) </span><br><span class="line">		<span class="keyword">return</span> AAAA;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">strncmp</span>(type, <span class="string">"MX"</span>, <span class="number">2</span>) == <span class="number">0</span>) </span><br><span class="line">		<span class="keyword">return</span> MX;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">strncmp</span>(type, <span class="string">"SOA"</span>, <span class="number">3</span>) == <span class="number">0</span>) </span><br><span class="line">		<span class="keyword">return</span> SOA;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">strncmp</span>(type, <span class="string">"TXT"</span>, <span class="number">3</span>) == <span class="number">0</span>) </span><br><span class="line">		<span class="keyword">return</span> TXT;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="keyword">return</span> PARAMETER_ERROR;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">port_check</span><span class="params">(<span class="keyword">char</span> *port)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (port == <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> PARAMETER_ERROR;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">int</span> num = atoi(port);</span><br><span class="line">	<span class="keyword">if</span> (num &lt;=<span class="number">0</span> )</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> PARAMETER_ERROR;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> num;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">parameter_check</span><span class="params">(<span class="keyword">char</span> *domain, <span class="keyword">char</span> *type, <span class="keyword">char</span> *proto, <span class="keyword">char</span> *port, <span class="keyword">char</span> *server_ip)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (domain == <span class="literal">NULL</span> || type_check(type) == PARAMETER_ERROR || server_ip == <span class="literal">NULL</span> \</span><br><span class="line">		|| proto_check(proto) == PARAMETER_ERROR || port_check(port) == PARAMETER_ERROR)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> PARAMETER_ERROR;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> </span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> PARAMETER_NO_ERROR;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* dest在外面分配好大小，大小为strlen(domain) + 2</span></span><br><span class="line"><span class="comment"> * 把域名转换为数据包中的格式 www.abc.cn --&gt; 3www3abc2cn0 */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">domain_transform</span><span class="params">(<span class="keyword">char</span> *dest, <span class="keyword">char</span> *domain)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (dest == <span class="literal">NULL</span> || domain == <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">char</span> domain_copy[<span class="number">128</span>];</span><br><span class="line">	<span class="built_in">memset</span>(domain_copy, <span class="number">0</span>, <span class="number">128</span>);</span><br><span class="line">	<span class="built_in">strcpy</span>(domain_copy, domain);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">char</span> *token = <span class="literal">NULL</span>;</span><br><span class="line">	<span class="keyword">int</span> token_length = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> offset = <span class="number">0</span>;</span><br><span class="line">	token = strtok(domain_copy, <span class="string">"."</span>);</span><br><span class="line">	<span class="keyword">while</span> (token != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		offset += token_length;</span><br><span class="line">		token_length = <span class="built_in">strlen</span>(token);</span><br><span class="line">		dest[offset] = token_length;</span><br><span class="line">		<span class="built_in">sprintf</span>(dest + offset + <span class="number">1</span>, <span class="string">"%s"</span>, token);</span><br><span class="line">		token_length++;</span><br><span class="line">		token = strtok(<span class="literal">NULL</span>, <span class="string">"."</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	dest[offset + token_length] = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 创建一个dns查询包，返回包的长度 */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">gen_dns_packet</span><span class="params">(<span class="keyword">char</span> *buffer, <span class="keyword">char</span> *domain_name, <span class="keyword">char</span> *type, <span class="keyword">char</span> *proto)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">dns_header_t</span> header;</span><br><span class="line">	<span class="keyword">dns_question_t</span> question;</span><br><span class="line">	<span class="keyword">int</span> offset = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">char</span> domain[<span class="built_in">strlen</span>(domain_name) + <span class="number">2</span>];</span><br><span class="line">	</span><br><span class="line">	domain_transform(domain, domain_name);</span><br><span class="line">	header.id = <span class="number">1</span>;</span><br><span class="line">    header.rd = <span class="number">1</span>;</span><br><span class="line">    header.tc = <span class="number">0</span>;</span><br><span class="line">    header.aa = <span class="number">0</span>;</span><br><span class="line">    header.opcode = <span class="number">0</span>;</span><br><span class="line">    header.qr = <span class="number">0</span>;</span><br><span class="line">    header.rcode = <span class="number">0</span>;</span><br><span class="line">    header.z = <span class="number">0</span>;</span><br><span class="line">    header.ra = <span class="number">0</span>;</span><br><span class="line">    header.qdcount = htons(<span class="number">1</span>);  </span><br><span class="line">    header.ancount = htons(<span class="number">0</span>);</span><br><span class="line">    header.nscount = htons(<span class="number">0</span>);</span><br><span class="line">    header.arcount = htons(<span class="number">0</span>);</span><br><span class="line">	question.qclass = htons(<span class="number">1</span>);</span><br><span class="line">	question.qtype = htons(type_check(type));</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span> (<span class="built_in">strncmp</span>(proto, <span class="string">"TCP"</span>, <span class="number">3</span>) == <span class="number">0</span>) </span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">/*tcp报文头部 比dns报文多两个八位组用来表示接下来要发送的长度 */</span></span><br><span class="line">		<span class="keyword">unsigned</span> <span class="keyword">short</span> length ;</span><br><span class="line">		length = htons(<span class="keyword">sizeof</span>(<span class="keyword">dns_header_t</span>) + <span class="keyword">sizeof</span>(domain) + <span class="keyword">sizeof</span>(<span class="keyword">dns_question_t</span>));									</span><br><span class="line">		<span class="built_in">memcpy</span>(buffer, &amp;length, <span class="keyword">sizeof</span>(<span class="keyword">unsigned</span> <span class="keyword">short</span>));</span><br><span class="line">		offset += <span class="keyword">sizeof</span>(<span class="keyword">unsigned</span> <span class="keyword">short</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">memcpy</span>(buffer + offset, &amp;header, <span class="keyword">sizeof</span>(header));</span><br><span class="line">	offset += <span class="keyword">sizeof</span>(header);</span><br><span class="line">	<span class="built_in">memcpy</span>(buffer + offset, domain, <span class="keyword">sizeof</span>(domain));</span><br><span class="line">	offset += <span class="keyword">sizeof</span>(domain);</span><br><span class="line">	<span class="built_in">memcpy</span>(buffer + offset, &amp;question, <span class="keyword">sizeof</span>(<span class="keyword">dns_question_t</span>));</span><br><span class="line">	offset += <span class="keyword">sizeof</span>(<span class="keyword">dns_question_t</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span> offset;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 取得服务器的响应包，返回的是错误代码 */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">get_dns_response</span><span class="params">(<span class="keyword">char</span> *sendbuf, <span class="keyword">unsigned</span> <span class="keyword">char</span> * recv_buf, <span class="keyword">int</span> sendbuf_len, <span class="keyword">char</span> *proto, <span class="keyword">char</span> *port, <span class="keyword">char</span> *server_ip)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> sockfd;</span><br><span class="line">	<span class="keyword">int</span> ret;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">addr</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">timeval</span> <span class="title">tv</span>;</span></span><br><span class="line">	</span><br><span class="line">	<span class="built_in">memset</span>(&amp;addr, <span class="number">0</span>, <span class="keyword">sizeof</span>(addr));</span><br><span class="line">	addr.sin_family = AF_INET;</span><br><span class="line">	addr.sin_port = htons(atoi(port));</span><br><span class="line">	addr.sin_addr.s_addr = inet_addr(server_ip);</span><br><span class="line">	tv.tv_usec = <span class="number">0</span>;</span><br><span class="line">	tv.tv_sec = TIMEOUT;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span>(<span class="built_in">strncmp</span>(proto, <span class="string">"TCP"</span>, <span class="number">3</span>) == <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		sockfd = socket(AF_INET, SOCK_STREAM, <span class="number">0</span>);</span><br><span class="line">		<span class="keyword">if</span> (sockfd &lt; <span class="number">0</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> SOCKET_ERROR;</span><br><span class="line">		&#125;</span><br><span class="line">		setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, &amp;tv, <span class="keyword">sizeof</span> (tv));</span><br><span class="line">		setsockopt(sockfd, SOL_SOCKET, SO_SNDTIMEO, &amp;tv, <span class="keyword">sizeof</span> (tv));</span><br><span class="line">		</span><br><span class="line">		ret = connect(sockfd, (struct sockaddr *)&amp;addr, <span class="keyword">sizeof</span>(struct sockaddr));</span><br><span class="line">		<span class="keyword">if</span> (ret &lt; <span class="number">0</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> TCP_CONNECT_ERROR;	</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		ret = write(sockfd, sendbuf, sendbuf_len);</span><br><span class="line">		<span class="keyword">if</span> (ret &lt; <span class="number">0</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> QUARY_SEND_ERROR;	</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="built_in">memset</span>(sendbuf, <span class="number">0</span>, BUFFER_MAX_SIZE);</span><br><span class="line">		ret = read(sockfd, recv_buf, BUFFER_MAX_SIZE);</span><br><span class="line">		<span class="keyword">if</span> (ret &lt; <span class="number">0</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> RESPONSE_RECV_ERROR;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">socklen_t</span> len;</span><br><span class="line">		sockfd = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);</span><br><span class="line">		<span class="keyword">if</span> (sockfd &lt; <span class="number">0</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> SOCKET_ERROR;</span><br><span class="line">		&#125;</span><br><span class="line">		setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, &amp;tv, <span class="keyword">sizeof</span> (tv));</span><br><span class="line">		setsockopt(sockfd, SOL_SOCKET, SO_SNDTIMEO, &amp;tv, <span class="keyword">sizeof</span> (tv));</span><br><span class="line">		</span><br><span class="line">		ret = sendto(sockfd, sendbuf, sendbuf_len, <span class="number">0</span>, (struct sockaddr*)&amp;addr, <span class="keyword">sizeof</span>(struct sockaddr_in));</span><br><span class="line">		<span class="keyword">if</span> (ret &lt; <span class="number">0</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> QUARY_SEND_ERROR;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="built_in">memset</span>(sendbuf, <span class="number">0</span>, BUFFER_MAX_SIZE);</span><br><span class="line">	</span><br><span class="line">		ret = recvfrom(sockfd, recv_buf, BUFFER_MAX_SIZE, <span class="number">0</span>, (struct sockaddr*)&amp;addr, &amp;len);</span><br><span class="line">		<span class="keyword">if</span> (ret &lt; <span class="number">0</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> RESPONSE_RECV_ERROR;</span><br><span class="line">		&#125; </span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	close(sockfd);</span><br><span class="line">	<span class="keyword">return</span> DNS_CHECK_SUCCESS;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 打印资源记录信息 */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">print_dns_rr</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">char</span> *data, <span class="keyword">int</span> type, <span class="keyword">unsigned</span> <span class="keyword">char</span> *recv_buf, <span class="keyword">int</span> offset)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">switch</span> (type)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">case</span> A:</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"%-10s%i.%i.%i.%i\n"</span>, <span class="string">"A"</span>, data[<span class="number">0</span>], data[<span class="number">1</span>], data[<span class="number">2</span>], data[<span class="number">3</span>]);</span><br><span class="line">			<span class="keyword">break</span>;	</span><br><span class="line">		&#125;				</span><br><span class="line">		<span class="keyword">case</span> CNAME:</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">char</span> cname[DOMAIN_MAX_SIZE]=&#123;<span class="number">0</span>&#125;;</span><br><span class="line">			get_domain(offset, cname, recv_buf);</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"%-10s%-s\n"</span>, <span class="string">"CNAME"</span>, cname);</span><br><span class="line">			<span class="keyword">break</span>;	</span><br><span class="line">		&#125;		</span><br><span class="line">		<span class="keyword">case</span> NS:</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">char</span> ns_name[DOMAIN_MAX_SIZE];</span><br><span class="line">			get_domain(offset, ns_name, recv_buf);</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"%-10s%-s\n"</span>, <span class="string">"NS"</span>, ns_name);</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">case</span> SOA:</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">char</span> mname[<span class="number">100</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">			<span class="keyword">char</span> rname[<span class="number">100</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">			<span class="keyword">unsigned</span> <span class="keyword">int</span> serial, refresh, retry, expire, minimum; </span><br><span class="line">			<span class="keyword">int</span> n1 = get_domain(offset, mname, recv_buf);</span><br><span class="line">			n1 = get_domain(n1, rname, recv_buf);</span><br><span class="line">			serial = *(<span class="keyword">unsigned</span> <span class="keyword">int</span>*) (data + n1);</span><br><span class="line">			n1 += <span class="number">4</span>;</span><br><span class="line">			refresh = *(<span class="keyword">unsigned</span> <span class="keyword">int</span> *) (data + n1);</span><br><span class="line">			n1 += <span class="number">4</span>;</span><br><span class="line">			retry = *(<span class="keyword">unsigned</span> <span class="keyword">int</span> *) (data + n1);</span><br><span class="line">			n1 += <span class="number">4</span>;</span><br><span class="line">			expire = *(<span class="keyword">unsigned</span> <span class="keyword">int</span> *) (data + n1);</span><br><span class="line">			n1 += <span class="number">4</span>;</span><br><span class="line">			minimum = *(<span class="keyword">unsigned</span> <span class="keyword">int</span> *) (data + n1);</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"SOA %s %s %u %u %u %u %u n"</span>,</span><br><span class="line">					mname, rname, ntohl(serial), ntohl(refresh),</span><br><span class="line">					ntohl(retry), ntohl(expire), ntohl(minimum));</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">			</span><br><span class="line">		<span class="keyword">case</span> MX:</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">int</span> preference = *(<span class="keyword">unsigned</span> <span class="keyword">short</span>*) data;</span><br><span class="line">			<span class="keyword">char</span> exchange[<span class="number">100</span>];</span><br><span class="line">			get_domain(offset + <span class="number">2</span>, exchange, recv_buf);</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"MX\t%i\t%s\n"</span>, ntohs(preference), exchange);</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">case</span> TXT:</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"TXT\t%s\n"</span>, data + <span class="number">1</span>);</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> AAAA:</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"%-10s"</span>,<span class="string">"AAAA"</span>);</span><br><span class="line">			<span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">			<span class="keyword">while</span>(i &lt; <span class="number">7</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">"%02x%02x:"</span>, data[<span class="number">2</span>*i],data[<span class="number">2</span>*i+<span class="number">1</span>]);</span><br><span class="line">				i++;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"%02x%02x\n"</span>,data[<span class="number">14</span>], data[<span class="number">15</span>]);</span><br><span class="line">			<span class="keyword">break</span>;	</span><br><span class="line">		&#125;			</span><br><span class="line">		<span class="keyword">default</span>:</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"\n"</span>);	</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 打印dns响应包，返回服务器健康情况，*/</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">unpacket</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">char</span> *recv_buf,<span class="keyword">char</span> *proto, <span class="keyword">char</span> *type)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> result = DNS_SERVER_NOT_HEALTH; <span class="comment">/*dns服务器是否健康， 1表示健康， 0 表示有问题 */</span></span><br><span class="line">	<span class="keyword">char</span> domain[DOMAIN_MAX_SIZE];</span><br><span class="line">	<span class="built_in">memset</span>(domain, <span class="number">0</span>, <span class="keyword">sizeof</span>(domain));</span><br><span class="line">	<span class="keyword">int</span> rr_no;</span><br><span class="line">	<span class="keyword">dns_header_t</span> header;</span><br><span class="line">	<span class="keyword">dns_question_t</span> question;</span><br><span class="line">	<span class="keyword">int</span> offset = <span class="number">0</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span>(<span class="built_in">strncmp</span>(proto, <span class="string">"TCP"</span>, <span class="number">3</span>) == <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">/* 去掉tcp头部的表示长度的块 */</span></span><br><span class="line">		<span class="built_in">memcpy</span>(recv_buf, recv_buf + <span class="number">2</span>, BUFFER_MAX_SIZE<span class="number">-2</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">memcpy</span>(&amp;header, recv_buf + offset, <span class="keyword">sizeof</span>(<span class="keyword">dns_header_t</span>));</span><br><span class="line">	offset += <span class="keyword">sizeof</span>(<span class="keyword">dns_header_t</span>);</span><br><span class="line">	</span><br><span class="line">	get_domain(offset, domain, recv_buf);</span><br><span class="line">	offset += <span class="built_in">strlen</span>(domain) + <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">memcpy</span>(&amp;question, recv_buf + offset, <span class="keyword">sizeof</span>(<span class="keyword">dns_question_t</span>));</span><br><span class="line">	offset += <span class="keyword">sizeof</span>(<span class="keyword">dns_question_t</span>);</span><br><span class="line">	</span><br><span class="line">	rr_no = ntohs(header.ancount) + ntohs(header.nscount) + ntohs(header.arcount);</span><br><span class="line">	<span class="keyword">if</span> (rr_no &gt; <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">";;QUESTION: \n"</span>);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">";%-32s%-10s%s\n"</span>, domain, <span class="string">"IN"</span>, type);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span> (rr_no &gt; <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"\n;;ANSWER SECTION:\n"</span>);    </span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">dns_rr_t</span> rr;</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> data[DNS_RR_MAX_SIZE];</span><br><span class="line">	<span class="keyword">while</span> (rr_no &gt; <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">memset</span>(domain, <span class="number">0</span>, <span class="keyword">sizeof</span>(domain));</span><br><span class="line">		<span class="built_in">memset</span>(data, <span class="number">0</span>, <span class="keyword">sizeof</span>(data));</span><br><span class="line">		offset = get_domain(offset, domain, recv_buf);</span><br><span class="line">		<span class="built_in">memcpy</span>(&amp;rr, recv_buf + offset, <span class="keyword">sizeof</span>(<span class="keyword">dns_rr_t</span>));</span><br><span class="line">		offset += <span class="keyword">sizeof</span>(<span class="keyword">dns_rr_t</span>);</span><br><span class="line">		<span class="built_in">memcpy</span>(data, recv_buf + offset, ntohs(rr.rdlength));</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">int</span> type = ntohs(rr.type);</span><br><span class="line">		<span class="keyword">if</span> (type == A ||type == AAAA ||type == CNAME ||type == NS|| type == SOA || type == MX || type == TXT)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (type == htons(question.qtype))</span><br><span class="line">				result = DNS_SERVER_HEALTH;</span><br><span class="line">			</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"%-25s%-8d%-10s"</span>,domain, ntohl(rr.ttl),<span class="string">"IN"</span>);</span><br><span class="line">			print_dns_rr(data, type, recv_buf, offset);</span><br><span class="line">		&#125;</span><br><span class="line">		offset += ntohs(rr.rdlength);</span><br><span class="line">		rr_no--;</span><br><span class="line">		<span class="keyword">if</span> (rr_no == ntohs(header.nscount) + ntohs(header.arcount) &amp;&amp; ntohs(header.nscount) &gt; <span class="number">0</span>) </span><br><span class="line">		&#123;</span><br><span class="line">		 <span class="built_in">printf</span>(<span class="string">"\n;;AUTHORITY SECTION:\n"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (rr_no == ntohs(header.arcount) &amp;&amp; ntohs(header.arcount) &gt; <span class="number">0</span>) </span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"\n;;ADDITIONAL SECTION:\n"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">	<span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">dns_health_check</span><span class="params">(<span class="keyword">char</span> *server_ip, <span class="keyword">char</span> *domain, <span class="keyword">char</span> *type, <span class="keyword">char</span> *proto, <span class="keyword">char</span> *port)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">int</span> offset;</span><br><span class="line">	<span class="keyword">int</span> result;</span><br><span class="line">	result = parameter_check(domain, type, proto, port, server_ip);</span><br><span class="line">	<span class="keyword">if</span> (result == <span class="number">-1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> PARAMETER_ERROR;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">char</span> sendbuf[BUFFER_MAX_SIZE];</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> recv_buf[BUFFER_MAX_SIZE];</span><br><span class="line">	<span class="built_in">memset</span>(sendbuf, <span class="number">0</span>, <span class="keyword">sizeof</span>(sendbuf));</span><br><span class="line">	<span class="built_in">memset</span>(recv_buf,<span class="number">0</span>, <span class="keyword">sizeof</span>(recv_buf));</span><br><span class="line">	</span><br><span class="line">	offset = gen_dns_packet(sendbuf, domain, type, proto);</span><br><span class="line">	result = get_dns_response(sendbuf, recv_buf, offset, proto, port, server_ip);</span><br><span class="line">	<span class="keyword">if</span> (result != DNS_CHECK_SUCCESS)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> result;</span><br><span class="line">	&#125;</span><br><span class="line">	result = unpacket(recv_buf, proto, type);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="main文件"><a href="#main文件" class="headerlink" title="main文件"></a>main文件</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"dns_health_check.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DNS_CHECK_SUCCESS 0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DNS_SERVER_HEALTH 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DNS_SERVER_NOT_HEALTH 2</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> PARAMETER_ERROR -1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> GET_DNS_SERVER_IP_ERROR -2</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> QUARY_SEND_ERROR -3</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> RESPONSE_RECV_ERROR -5</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> TCP_CONNECT_ERROR -4</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SOCKET_ERROR -6</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> result;</span><br><span class="line">	result = dns_health_check(<span class="string">"8.8.8.8"</span>, <span class="string">"www.baidu.com"</span>, <span class="string">"A"</span>, <span class="string">"UDP"</span>, <span class="string">"53"</span>);</span><br><span class="line">	<span class="keyword">switch</span>(result)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">case</span> DNS_SERVER_HEALTH:</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"DNS_SERVER_HEALTH\n"</span>);	<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> DNS_SERVER_NOT_HEALTH :          </span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"DNS_SERVER_NOT_HEALTH\n"</span>);<span class="keyword">break</span>;  </span><br><span class="line">		<span class="keyword">case</span> PARAMETER_ERROR :                 </span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"PARAMETER_ERROR\n"</span>);<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> QUARY_SEND_ERROR :                </span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"QUARY_SEND_ERROR\n"</span>);<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> RESPONSE_RECV_ERROR :              </span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"RESPONSE_RECV_ERROR\n"</span>);<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> TCP_CONNECT_ERROR :                </span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"TCP_CONNECT_ERROR\n"</span>);<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> SOCKET_ERROR :                     </span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"SOCKET_ERROR\n"</span>);<span class="keyword">break</span>;	</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="使用说明"><a href="#使用说明" class="headerlink" title="使用说明"></a>使用说明</h3><p>a simple dns client send a quary message and explain response</p>
 <p>/<em> 已测试平台：centos6.7 64位环境 </em>/</p>
 <p>函数：</p>
@@ -359,274 +112,211 @@
 
       
     </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/dns/" rel="tag"># dns</a>
-          
-            <a href="/tags/C/" rel="tag"># C</a>
-          
-        </div>
-      
-
+    <footer class="article-footer">
+      <a data-url="http://winn.cc/2017/11/23/dns_client/" data-id="cjizw458a00085qdgpoub5yw9" class="article-share-link">分享</a>
       
       
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/">C</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dns/">dns</a></li></ul>
 
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/10/22/C_send_http_request_example/" rel="next" title="C语言发送http请求">
-                <i class="fa fa-chevron-left"></i> C语言发送http请求
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/12/03/tinyhttpd_read/" rel="prev" title="tinyhttpd源码解析，最简单的HTTP服务器">
-                tinyhttpd源码解析，最简单的HTTP服务器 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
     </footer>
   </div>
   
-  
-  
-  </article>
-
-
-
-    <div class="post-spread">
-      
+    
+ <script src="/jquery/jquery.min.js"></script>
+  <div id="random_posts">
+    <h2>推荐文章</h2>
+    <div class="random_posts_ul">
+      <script>
+          var random_count =4
+          var site = {BASE_URI:'/'};
+          function load_random_posts(obj) {
+              var arr=site.posts;
+              if (!obj) return;
+              // var count = $(obj).attr('data-count') || 6;
+              for (var i, tmp, n = arr.length; n; i = Math.floor(Math.random() * n), tmp = arr[--n], arr[n] = arr[i], arr[i] = tmp);
+              arr = arr.slice(0, random_count);
+              var html = '<ul>';
+            
+              for(var j=0;j<arr.length;j++){
+                var item=arr[j];
+                html += '<li><strong>' + 
+                item.date + ':&nbsp;&nbsp;<a href="' + (site.BASE_URI+item.uri) + '">' + 
+                (item.title || item.uri) + '</a></strong>';
+                if(item.excerpt){
+                  html +='<div class="post-excerpt">'+item.excerpt+'</div>';
+                }
+                html +='</li>';
+                
+              }
+              $(obj).html(html + '</ul>');
+          }
+          $('.random_posts_ul').each(function () {
+              var c = this;
+              if (!site.posts || !site.posts.length){
+                  $.getJSON(site.BASE_URI + 'js/posts.js',function(json){site.posts = json;load_random_posts(c)});
+              } 
+               else{
+                load_random_posts(c);
+              }
+          });
+      </script>
     </div>
   </div>
 
-
-          </div>
-          
-
-
-          
-
+    
+<nav id="article-nav">
   
-
-
-
-        </div>
+    <a href="/2017/12/03/tinyhttpd_read/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
         
-          
+          tinyhttpd源码解析，最简单的HTTP服务器
+        
+      </div>
+    </a>
   
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+  
+    <a href="/2017/10/22/C_send_http_request_example/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">C语言发送http请求</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+       
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+       
+            <div id="SOHUCS" sid="2017/11/23/dns_client/"> </div>
+    
+      
+      
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+
+  
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目录</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码"><span class="toc-number">2.</span> <span class="toc-text">代码</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#头文件声明"><span class="toc-number">2.1.</span> <span class="toc-text">头文件声明</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#函数实现"><span class="toc-number">2.2.</span> <span class="toc-text">函数实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#main文件"><span class="toc-number">2.3.</span> <span class="toc-text">main文件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用说明"><span class="toc-number">3.</span> <span class="toc-text">使用说明</span></a></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+
+  
+    
+  
+    
+  
+    
+
+  
+    
+  
+    <!--微信公众号二维码-->
+
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2018 温阳光&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;wen-41270219@163.com
     </div>
   </div>
-
-  <aside id="sidebar" class="sidebar">
-    
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
-
-      <section class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name">Winn</p>
-              <p class="site-description motion-element" itemprop="description"></p>
-          </div>
-
-          <nav class="site-state motion-element">
-
-            
-              <div class="site-state-item site-state-posts">
-              
-                <a href="/archives/">
-              
-                  <span class="site-state-item-count">11</span>
-                  <span class="site-state-item-name">日志</span>
-                </a>
-              </div>
-            
-
-            
-              
-              
-              <div class="site-state-item site-state-categories">
-                <a href="/categories/index.html">
-                  <span class="site-state-item-count">4</span>
-                  <span class="site-state-item-name">分类</span>
-                </a>
-              </div>
-            
-
-            
-              
-              
-              <div class="site-state-item site-state-tags">
-                <a href="/tags/index.html">
-                  <span class="site-state-item-count">18</span>
-                  <span class="site-state-item-name">标签</span>
-                </a>
-              </div>
-            
-
-          </nav>
-
-          
-            <div class="feed-link motion-element">
-              <a href="/atom.xml" rel="alternate">
-                <i class="fa fa-rss"></i>
-                RSS
-              </a>
-            </div>
-          
-
-          
-            <div class="links-of-author motion-element">
-                
-                  <span class="links-of-author-item">
-                    <a href="https://github.com/SunshineW" target="_blank" title="GitHub">
-                      
-                        <i class="fa fa-fw fa-github"></i>GitHub</a>
-                  </span>
-                
-                  <span class="links-of-author-item">
-                    <a href="mailto:yg_wen@126.com" target="_blank" title="E-Mail">
-                      
-                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
-                  </span>
-                
-            </div>
-          
-
-          
-          
-
-          
-          
-
-          
-
-        </div>
-      </section>
-
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码"><span class="nav-number">2.</span> <span class="nav-text">代码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#头文件声明"><span class="nav-number">2.1.</span> <span class="nav-text">头文件声明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#函数实现"><span class="nav-number">2.2.</span> <span class="nav-text">函数实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#main文件"><span class="nav-number">2.3.</span> <span class="nav-text">main文件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用说明"><span class="nav-number">3.</span> <span class="nav-text">使用说明</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
-      
-
-      
-
+</footer>
+ <script src="/jquery/jquery.min.js"></script>
     </div>
-  </aside>
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
-  <span class="with-love">
-    <i class="fa fa-user"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Winn</span>
-
+    <nav id="mobile-nav">
   
-</div>
-
-
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
-
-
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
-
-
-
-
-        
-
-
-
-
-
-
-
-        
-      </div>
-    </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
-    
-
-    
-
-  </div>
-
+    <a href="/" class="mobile-nav-link">首页</a>
   
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
 
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
+
+
+<script type="text/javascript ">
+    (function () {
+        var appid = 'cytGNXn8E';
+        var conf = '600ef931a771fe5f4e194a8383fb4a7a';
+        var width = window.innerWidth || document.documentElement.clientWidth;
+        if (width < 960) {
+            window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
+        } else {
+            var loadJs = function (d, a) {
+                var c = document.getElementsByTagName("head")[0] || document.head || document.documentElement;
+                var b = document.createElement("script");
+                b.setAttribute("type", "text/javascript");
+                b.setAttribute("charset", "UTF-8");
+                b.setAttribute("src", d);
+                if (typeof a === "function") {
+                    if (window.attachEvent) {
+                        b.onreadystatechange = function () {
+                            var e = b.readyState;
+                            if (e === "loaded" || e === "complete") {
+                                b.onreadystatechange = null;
+                                a()
+                            }
+                        }
+                    } else {
+                        b.onload = a
+                    }
+                }
+                c.appendChild(b)
+            };
+            loadJs("http://changyan.sohu.com/upload/changyan.js", function () {
+                window.changyan.api.config({
+                    appid: appid,
+                    conf: conf
+                })
+            });
+        }
+    })();
 </script>
 
 
@@ -636,129 +326,46 @@
 
 
 
+<!-- author:forvoid begin -->
+<!-- author:forvoid begin -->
 
-  
+<!-- author:forvoid end -->
 
-
-
-
-
-
-
-
-
-
+<!-- author:forvoid end -->
 
 
   
-  
-    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
 
-  
-  
-    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 
-  
+ <script src="/js/is.js"></script>
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
-
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
 
 
-  
-  
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
-
-
-
-  
-
-
-  
-
-
-
-
-	
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-  
-
-  
-
-  
-  
-
-  
-
-  
-
-  
-
+<script src="/js/script.js"></script>
+<script src="/js/elevator.js"></script>
+  </div>
 </body>
 </html>
